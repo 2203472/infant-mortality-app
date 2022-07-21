@@ -24,16 +24,32 @@ app = flask.Flask(__name__,
                   static_folder='static',
                   template_folder='templates')
 
-dataset = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
-yes_b5_class = dataset.loc[dataset['B5CLASS'].str.contains("Yes")]
-no_b5_class = dataset.loc[dataset['B5CLASS'].str.contains("No")]
-img = BytesIO()
-
 
 # Highest Education Attainment for each Mortality class
 
-def highest_educational_attainment():
+def highest_educational_attainment_yes(yes_b5_class,img):
     # Bar Plot Highest Education Attainment for yes class
+    no_class_education_count = yes_b5_class['V149'].value_counts()
+
+    plt.figure(figsize=(15, 7))
+    ax1 = sns.barplot(x=no_class_education_count.index, y=no_class_education_count.values, palette="pastel",
+                      edgecolor=".6", hue=no_class_education_count.index, dodge=False)
+    plt.ylabel('Total Count')
+    plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
+
+    for container in ax1.containers:
+        ax1.bar_label(container, padding=3)
+
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    high_educ_attain_bar = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return high_educ_attain_bar
+
+
+def highest_educational_attainment_no(no_b5_class,img):
+    # Bar Plot Highest Education Attainment for no class
     no_class_education_count = no_b5_class['V149'].value_counts()
 
     plt.figure(figsize=(15, 7))
@@ -53,7 +69,7 @@ def highest_educational_attainment():
     return high_educ_attain_bar
 
 
-def income():
+def income(no_b5_class,img):
     # Income
     no_class_occupation_count = no_b5_class['V717'].value_counts()
     no_class_occupation_count = no_class_occupation_count[:10, ]
@@ -75,7 +91,7 @@ def income():
     return inc
 
 
-def partner_highest_educational_attainment():
+def partner_highest_educational_attainment(no_b5_class,img):
     # Husband/Partner's Highest Educational Attainment
     no_class_partner_education_count = no_b5_class['V729'].value_counts()
 
@@ -97,13 +113,20 @@ def partner_highest_educational_attainment():
     return part_high_educ_attain
 
 
-def person_allocating_budget_earnings():
+def person_allocating_budget_earnings(no_b5_class,img):
     # Person in-charge of allocating budget of respondent's earnings
-    explode = (0, 0, 1, 1, 1)
     colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
 
     no_class_person_allocate_budget_count = no_b5_class['V739'].value_counts()
     no_class_person_allocate_budget_list = list(no_class_person_allocate_budget_count.keys())
+
+    num_index = len(no_class_person_allocate_budget_count.index)
+    temp = []
+    for i in range(0, num_index):
+        value = 0.1
+        temp.append(value)
+
+    explode = tuple(temp)
 
     person_in_charge = []
 
@@ -113,7 +136,7 @@ def person_allocating_budget_earnings():
     plt.figure(figsize=(10, 10))
 
     plt.pie(person_in_charge, labels=no_class_person_allocate_budget_list,
-            shadow=False, startangle=180, colors=colors, explode=explode,
+            shadow=False, startangle=180, colors=colors,explode=explode,
             autopct='%1.1f%%')
 
     plt.title('Person in-charge of Allocating Budget of Earnings',
@@ -129,7 +152,7 @@ def person_allocating_budget_earnings():
     return per_alloc_bud_earn
 
 
-def infant_mortality_rate():
+def infant_mortality_rate(dataset,img):
     # Line Graph of Infant Mortality
     dataset['B5CLASS'].replace(['Yes', 'No'], [1, 0], inplace=True)
 
@@ -156,7 +179,7 @@ def infant_mortality_rate():
     return inf_mort_rate
 
 
-def total_infant_mortality_year():
+def total_infant_mortality_year(no_b5_class,img):
     # Get different years with
     # yes value via value counts
     no_class_year_count = no_b5_class['V007'].value_counts()
@@ -179,7 +202,7 @@ def total_infant_mortality_year():
     return inf_mort_rate_yr
 
 
-def household_amenities_region():
+def household_amenities_region(dataset,img):
     # Household Amenities per Region
     amenities = dataset[['V119', 'V120', 'V121', 'V122', 'V123', 'V124', 'V125']]
     variables = {'V119': "Electricity", 'V120': "Radio", 'V121': "Television", 'V122': "Refrigerator",
@@ -207,7 +230,7 @@ def household_amenities_region():
     return house_amen_rgn
 
 
-def respondents_prenatal_care_region():
+def respondents_prenatal_care_region(dataset,img):
     # Number of Respondents Receiving Prenatal Care per Region
     prenatal = dataset[['M2A', 'M2K', 'M2N']]
     variables = {'M2A': "Doctor", 'M2K': "Other", 'M2N': "No One"}
@@ -234,7 +257,7 @@ def respondents_prenatal_care_region():
     return resp_pre_car_rgn
 
 
-def assistance_type_region():
+def assistance_type_region(dataset,img):
     # Assistance Type per Region
     assistance = dataset[['M3A', 'M3H', 'M3K', 'M3N']]
     variables = {'M3A': "Doctor", 'M3H': "Barangay Health Worker", 'M3K': "Other", 'M3N': "No One"}
@@ -261,22 +284,29 @@ def assistance_type_region():
     return assist_typ_rgn
 
 
-def contraceptive_use_intention():
+def contraceptive_use_intention(dataset,img):
     # Contraceptive Use and Intention
-    explode = (0.1, 0.1, 0.1, 0.2)
+    # explode = (0.1, 0.1, 0.1, 0.2)
     colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
 
     no_class_contraceptive_use_intention_count = dataset['V364'].value_counts()
     no_class_contraceptive_use_intention_list = list(no_class_contraceptive_use_intention_count.keys())
+    num_index = len(no_class_contraceptive_use_intention_count.index)
+    temp = []
+    for i in range(0, num_index):
+        value = 0.1
+        temp.append(value)
 
-    contraceptive_use_intention = []
+    explode = tuple(temp)
+
+    contraceptive_use_intention_list = []
 
     for key in no_class_contraceptive_use_intention_count.keys():
-        contraceptive_use_intention.append(no_class_contraceptive_use_intention_count[key])
+        contraceptive_use_intention_list.append(no_class_contraceptive_use_intention_count[key])
 
     plt.figure(figsize=(8, 8))
-    plt.pie(contraceptive_use_intention, labels=no_class_contraceptive_use_intention_list,
-            shadow=False, startangle=180, colors=colors, explode=explode, autopct='%1.1f%%')
+    plt.pie(contraceptive_use_intention_list, labels=no_class_contraceptive_use_intention_list,
+            shadow=False, startangle=180, colors=colors, autopct='%1.1f%%', explode=explode)
     plt.title('Contraceptive Use and Intention',
               fontname="Century Gothic",
               size=18)
@@ -293,33 +323,40 @@ def contraceptive_use_intention():
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    if flask.request.form['btn'] == 'predict':
+    if flask.request.method == 'GET':
+        return render_template('index.html')
 
-        return render_template()
-    # with open(f'datasets/raw-features.pkl', 'rb') as f:
-    #     df = pickle.load(f)
+    if flask.request.method == 'POST':
+        if request.form['btn'] == 'predict':
 
-    # if flask.request.method == 'GET':
-    #     return flask.render_template('main.html')
+            return render_template('index.html')
 
-    # if flask.request.method == 'POST':
-    #     if request.form['btn'] == 'predict':
-    #         return render_template('main.html')
+    if request.form['btn'] == 'plot':
+        region = request.form["region"]
+        return redirect(url_for("descriptive_statistics", rgn=region))
 
-    # if request.form['btn'] == 'Plot':
-    #     region = request.form["region"]
-    #     return redirect(url_for("plot", rgn=region))
 
-    return render_template("sample.html", high_educ_attain_bar=highest_educational_attainment(),
-                           inc=income(),
-                           part_high_educ_attain=partner_highest_educational_attainment(),
-                           per_alloc_bud_earn=person_allocating_budget_earnings(),
-                           inf_mort_rate=infant_mortality_rate(),
-                           inf_mort_rate_yr=total_infant_mortality_year(),
-                           house_amen_rgn=household_amenities_region(),
-                           resp_pre_car_rgn=respondents_prenatal_care_region(),
-                           assist_typ_rgn=assistance_type_region(),
-                           cont_use_int=contraceptive_use_intention()
+@app.route('/<rgn>')
+def descriptive_statistics(rgn):
+    region_value = rgn
+    img = BytesIO()
+    data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
+    dataset_rgn = data.copy()
+    dataset_rgn = dataset_rgn.loc[dataset_rgn['V024'] == region_value]
+    yes_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('Yes')]
+    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('No')]
+
+    return render_template("sample.html", high_educ_attain_bar_yes=highest_educational_attainment_yes(yes_b5_class,img),
+                           high_educ_attain_bar_no=highest_educational_attainment_no(no_b5_class,img),
+                           inc=income(no_b5_class,img),
+                           part_high_educ_attain=partner_highest_educational_attainment(no_b5_class,img),
+                           per_alloc_bud_earn=person_allocating_budget_earnings(no_b5_class,img),
+                           inf_mort_rate=infant_mortality_rate(data,img),
+                           inf_mort_rate_yr=total_infant_mortality_year(data,img),
+                           house_amen_rgn=household_amenities_region(dataset_rgn,img),
+                           resp_pre_car_rgn=respondents_prenatal_care_region(dataset_rgn,img),
+                           assist_typ_rgn=assistance_type_region(dataset_rgn,img),
+                           cont_use_int=contraceptive_use_intention(dataset_rgn,img)
                            )
 
 

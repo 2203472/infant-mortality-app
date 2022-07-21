@@ -6,8 +6,11 @@
 	<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>-->
 </head>
 <body>
-    <h1>Highest Education Attainment</h1>
-    <img src="data:image/png;base64, {{ high_educ_attain_bar }}">
+    <h1>Descriptive Statistics for {{ region_value }}</h1>
+    <h1>Highest Education Attainment Yes</h1>
+    <img src="data:image/png;base64, {{ high_educ_attain_bar_yes }}">
+    <h1>Highest Education Attainment No</h1>
+    <img src="data:image/png;base64, {{ high_educ_attain_bar_no }}">
     <h1>Income</h1>
     <img src="data:image/png;base64, {{ inc }}">
     <h1>Husband/Partner's Highest Educational Attainment</h1>
