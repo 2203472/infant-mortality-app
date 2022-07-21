@@ -292,6 +292,10 @@ def contraceptive_use_intention():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+
+    if flask.request.form['btn'] == 'predict':
+
+        return render_template()
     # with open(f'datasets/raw-features.pkl', 'rb') as f:
     #     df = pickle.load(f)
 
