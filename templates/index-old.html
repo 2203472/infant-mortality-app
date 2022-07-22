@@ -118,12 +118,13 @@
 
     </form>
 
-    <section>
-        <h1>Line Graph of Infant Mortality</h1>
-        <img src="data:image/png;base64, {{ inf_mort_rate }}">
-        <h1>Total Infant Mortality 1998 - 2017</h1>
-        <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
-    </section>
+        <section>
+            <h1>Line Graph of Infant Mortality</h1>
+            <img src="data:image/png;base64, {{ inf_mort_rate }}">
+            <h1>Total Infant Mortality 1998 - 2017</h1>
+            <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
+        </section>
+
 <script>
     function isInteger(evt) {
             var char = String.fromCharCode(evt.which);

@@ -113,6 +113,28 @@ form {
     box-shadow: 2px 3px 10px rgba(75, 75, 75, 0.458);
 }
 
+.container1{
+  margin-bottom: 5%;
+}
+
+div.set{
+  background: var(--bg-color);
+  width: 90%;
+  border-radius: 25px;
+  padding: 1%;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 15%);
+  margin-left: 5%;
+
+}
+
+img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+
 fieldset{
     color: var(--title-color);
     border-style: ridge;
@@ -156,7 +178,7 @@ legend{
 }
 
 .submitBtn{
-    margin:4% 0 2% 50%;
+    margin:0% 0 1% 45%;
     background: var(--button-color-alt);
     border-radius: 10px;
     font-size: var(--normal-font-size);
@@ -178,25 +200,53 @@ input:focus{
 }
 
 .resInfo{
-    background-color: var(--button-color-alt);
-    margin: 2% 0 1% 10%;
-    float: left;
-    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-weight: 300;
+    width: 80%;
     text-align: center;
     border-radius: 10px;
     font-size: var(--normal-font-size);
-    padding: 3%;
+    padding: 1%;
     box-shadow: var(--title-color) 0 10px 20px -10px;
+    margin-left: 10%;
 }
 
 #resLabel {
-    color: #fffefc;
+    color: var(--text-color)
 }
-
+h1, h2{
+  text-align: center;
+}
 h3 {
   padding-left: 3%;
 }
 
 select{
   padding:1%;
+}
+
+p.shortDesc{
+  text-align: center;
+}
+
+select#region{
+  margin-left: 30%;
+}
+
+input.plotButton{
+  border-radius: 10px;
+  width: 80px;
+  cursor: pointer;
+  font-weight: var(--font-semi-bold);
+  line-height: 24px;
+  box-shadow:var(--secondary-text-color) 0 10px 20px -10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border: 0;
+  background-color: var(--button-color-alt1);
+  color: var(--bg-color);
+  opacity: 1;
+  outline: 0 solid transparent;
 }

@@ -356,13 +356,18 @@
 
 
     </form>
-
-    <section>
-        <h1>Line Graph of Infant Mortality</h1>
-        <img src="data:image/png;base64, {{ inf_mort_rate }}">
-        <h1>Total Infant Mortality 1998 - 2017</h1>
-        <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
-    </section>
+    <div class="container1">
+        <br>
+        <h2>Line Graph of Infant Mortality</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ inf_mort_rate }}">
+        </div>
+        <br>
+        <h2>Total Infant Mortality 1998 - 2017</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">        
+        </div>
+    </div>
 
 
 <script>

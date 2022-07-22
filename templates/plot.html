@@ -6,36 +6,61 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <body>
-    <h1>Descriptive Statistics for {{ region_value }}</h1>
+    <h2>Descriptive Statistics for {{ region_value }}</h2>
+    <div class="container1">
+        <br>
+        <h2>Highest Education Attainment Yes</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ high_educ_attain_bar_yes }}">
+        </div>
 
-    <h1>Highest Education Attainment Yes</h1>
-    <img src="data:image/png;base64, {{ high_educ_attain_bar_yes }}">
+        <br>
+        <h2>Highest Education Attainment No</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ high_educ_attain_bar_no }}">
+        </div>
 
-    <h1>Highest Education Attainment No</h1>
-    <img src="data:image/png;base64, {{ high_educ_attain_bar_no }}">
+        <br>
+        <h2>Income</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ inc }}">
+        </div>
 
-    <h1>Income</h1>
-    <img src="data:image/png;base64, {{ inc }}">
+        <br>
+        <h2>Husband/Partner's Highest Educational Attainment</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ part_high_educ_attain }}">
+        </div>
 
-    <h1>Husband/Partner's Highest Educational Attainment</h1>
-    <img src="data:image/png;base64, {{ part_high_educ_attain }}">
+        <br>
+        <h2>Person in-charge of allocating budget of respondent's earnings</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ per_alloc_bud_earn }}">
+        </div>
 
-    <h1>Person in-charge of allocating budget of respondent's earnings</h1>
-    <img src="data:image/png;base64, {{ per_alloc_bud_earn }}">
-    <h1>Number of Respondents Receiving Prenatal Care per Region</h1>
-    <img src="data:image/png;base64, {{ resp_pre_car_rgn }}">
+        <br>
+        <h2>Number of Respondents Receiving Prenatal Care per Region</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ resp_pre_car_rgn }}">
+        </div>
 
-    <h1>Household Amenities per Region</h1>
-    <img src="data:image/png;base64, {{ house_amen_rgn }}">
+        <br>
+        <h2>Household Amenities per Region</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ house_amen_rgn }}">
+        </div>
 
-    <h1>Assistance Type per Region</h1>
-    <img src="data:image/png;base64, {{ assist_typ_rgn }}">
+        <br>
+        <h2>Assistance Type per Region</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ assist_typ_rgn }}">
+        </div>
 
-    <h1>Contraceptive Use and Intention</h1>
-    <img src="data:image/png;base64, {{ cont_use_int }}">
-
-
-
-    
+        <br>
+        <h2>Contraceptive Use and Intention</h2>
+        <div class="set">
+            <img src="data:image/png;base64, {{ cont_use_int }}">
+        </div>
+    </div>
 </body>
 </html>
