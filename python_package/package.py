@@ -15,9 +15,11 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+import xgboost
 
 
 def predict_infant_mortality(input_values):
+    print('Nakapasok sa model')
     # Use pickle to load in the pre-trained model.
     with open(f'model/infant-mortality-xgboost-model.pkl', 'rb') as f:
         model = pickle.load(f)

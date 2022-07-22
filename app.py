@@ -8,6 +8,7 @@ from python_package import package
 from scipy.stats import stats
 from sklearn import preprocessing
 import seaborn as sns
+import xgboost
 
 from flask import request, url_for, redirect, render_template
 import matplotlib
@@ -24,77 +25,48 @@ app = flask.Flask(__name__,
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
+    img = BytesIO()
+
+    if flask.request.method == 'GET':
+        return render_template('index.html', inf_mort_rate=package.infant_mortality_rate(data, img),
+                               inf_mort_rate_yr=package.total_infant_mortality_year(data, img))
 
     if flask.request.method == 'POST':
         print("Predict")
-        if request.form['btn'] == 'Predict':
-            print("pasok")
-            v012 = (flask.request.form['v012'])
-            print("v012" + v012)
+        if request.form['btn'] == 'predict':
+            v012 = float(flask.request.form['v012'])
             v729_label = (flask.request.form['v729_label'])
-            print("v729_label" + v729_label)
             v149_label = (flask.request.form['v149_label'])
-            print("v149_label" + v149_label)
             v150_label = (flask.request.form['v150_label'])
-            print("v150_label" + v150_label)
             v504_label = (flask.request.form['v504_label'])
-            print("v504_label" + v504_label)
             v501_one = (flask.request.form['v501_one'])
-            print("print" + v501_one)
             v513_label = (flask.request.form['v513_label'])
-            print("print" + v513_label)
-            v203 = (flask.request.form['v203'])
-            print(v203)
-            v137 = (flask.request.form['v137'])
-            print(v137)
-            v202 = (flask.request.form['v202'])
-            print(v202)
-            v219 = (flask.request.form['v219'])
-            print(v219)
-            v201 = (flask.request.form['v201'])
-            print(v201)
+            v203 = float(flask.request.form['v203'])
+            v137 = float(flask.request.form['v137'])
+            v202 = float(flask.request.form['v202'])
+            v219 = float(flask.request.form['v219'])
+            v201 = float(flask.request.form['v201'])
             v119_label = (flask.request.form['v119_label'])
-            print("v119_label" + v119_label)
             v122_label = (flask.request.form['v122_label'])
-            print("v122_label" + v122_label)
             v121_label = (flask.request.form['v121_label'])
-            print("v121_label" + v121_label)
             v116_label = (flask.request.form['v116_label'])
-            print("v116_label" + v116_label)
-            bord = (flask.request.form['bord'])
-            print("bord" + bord)
+            bord = float(flask.request.form['bord'])
             m15_one = (flask.request.form['m15_one'])
-            print(m15_one)
-            b2 = (flask.request.form['b2'])
-            print(b2)
-            m19 = (flask.request.form['m19'])
-            print(m19)
+            b2 = float(flask.request.form['b2'])
+            m19 = float(flask.request.form['m19'])
             m3a_label = (flask.request.form['m3a_label'])
-            print(m3a_label)
             m19a = (flask.request.form['m19a'])
-            print(m19a)
             v602_one = (flask.request.form['v602_one'])
-            print("v602_one" + v602_one)
             v626_one = (flask.request.form['v626_one'])
-            print("v626_one" + v626_one)
-            v614 = (flask.request.form['v614'])
-            print(v614)
+            v614 = float(flask.request.form['v614'])
             v312_one = (flask.request.form['v312_one'])
-            print(v312_one)
             v364_one = (flask.request.form['v364_one'])
-            print(v364_one)
-            v337 = (flask.request.form['v337'])
-            print(v337)
+            v337 = float(flask.request.form['v337'])
             v362_one = (flask.request.form['v362_one'])
-            print(v362_one)
-            v363_one = (flask.request.form['v363_one'])
-            print(v363_one)
             v361_one = (flask.request.form['v361_one'])
-            print(v361_one)
             v327_one = (flask.request.form['v327_one'])
-            print(v327_one)
             v313_one = (flask.request.form['v313_one'])
-            print(v313_one)
 
             # print(str(v012))
             # print(v729_label)
@@ -148,8 +120,8 @@ def index():
                 v729_encoded = 7
             else:
                 v729_encoded = 9
-
             v149_encoded = 0
+            print("hakdog")
             if v149_label == "No education":
                 v149_encoded = 0
             elif v149_label == "Incomplete primary":
@@ -371,16 +343,13 @@ def index():
             print(input_values)
 
             result = package.predict_infant_mortality(input_values)
-            return render_template('index.html', result=result)
+            print(result)
+            return render_template('index.html', result=result, inf_mort_rate=package.infant_mortality_rate(data, img),
+                               inf_mort_rate_yr=package.total_infant_mortality_year(data, img))
 
         if request.form['btn'] == 'plot':
             region = request.form["region"]
             return redirect(url_for("descriptive_statistics", rgn=region))
-
-    data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
-    img = BytesIO()
-    return render_template('index.html', inf_mort_rate=package.infant_mortality_rate(data, img),
-                           inf_mort_rate_yr=package.total_infant_mortality_year(data, img))
 
 
 @app.route('/<rgn>', methods=['GET'])

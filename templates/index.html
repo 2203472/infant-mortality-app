@@ -305,7 +305,8 @@
                         <option value="Not Applicable">Not Applicable</option>
                     </select>
                 </div>
-
+                <input type="submit" name="btn" value="predict" class="submitBtn">
+                <p>Result: {{ result }}</p>
             </div>
             </div>
 <!--
@@ -335,10 +336,10 @@
                     <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
                 </div>
             </div> -->
-            <div class="resCol">
+            <!--<div class="resCol">
                 <div class="res">
-                    <input type="submit" name="btn" value="Predict" class="submitBtn">
-                </div>
+                    <input type="submit" name="btn" value="predict" class="submitBtn">
+                </div>-->
 
                 <div class="resInfo">
                     <p id="resLabel"> Result </p>
