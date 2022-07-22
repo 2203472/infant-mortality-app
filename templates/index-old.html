@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penatics: Infant Mortality</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style-old.css') }}"/>
+</head>
+<nav class="navbar">
+    <div class="nav-con">
+      <div class="logo">
+        <h1><a href="#">PENATICS</a></h1>
+      </div>
+  
+      <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+</nav>
+<body>
+    <section>
+        <h2>Infant Mortality Statistics by Region</h2>
+		<p class="shortDesc">Select a region to display its poverty statistics</p>
+		<form method = "POST">
+            <select id = "region" name = "region">
+                <option value = "I - Ilocos Region">I - Ilocos Region</option>
+                <option value = "II - Cagayan Valley">II - Cagayan Valley</option>
+                <option value = "III - Central Luzon">III - Central Luzon</option>
+                <option value = "IVA - CALABARZON">IV A - CALABARZON </option>
+                <option value = "IV B - MIMAROPA">MIMAROPA</option>
+                <option value = "V - Bicol">V - Bicol</option>
+                <option value = "VI - Western Visayas">VI - Western Visayas</option>
+                <option value = "VII - Central Visayas">VII - Central Visayas</option>
+                <option value = "VIII - Eastern Visayas">VIII - Eastern Visayas</option>
+                <option value = "IX - Zamboanga Peninsula">IX - Zamboanga Peninsula</option>
+                <option value = "X - Northern Mindanao">X - Northern Mindanao</option>
+                <option value = "XI - Davao">XI - Davao</option>
+                <option value = "XII - SOCCSKSARGEN">XII - SOCCSKSARGEN</option>
+                <option value = "Caraga">XIII - Caraga</option>
+                <option value = "National Capital Region (NCR)">National Capital Region (NCR)</option>
+                <option value = "Cordillera Administrative Region (CAR)">Cordillera Administrative Region (CAR)</option>
+                <option value = "Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)">Bangsamoro Autonomous Region In Muslim Mindanao (BARMM)</option>
+            </select>
+			<input type = "submit" name="btn" value="plot" class="plotButton">
+		</form>
+    </section>
+
+    <div class="container">
+    <fieldset>
+        <legend> Form </legend>
+        <form action="{{ url_for('index') }}" method="POST">
+        <div class="col">
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" onkeypress="isInteger(event)" required>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+            <div class="row">
+                <label for="label"> Text: </label>
+                <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+            </div>
+        </div>
+        <div class="resCol">
+            <div class="res">
+                <input type="submit" name="btn" value="Predict" class="submitBtn">
+            </div>
+
+            <div class="resInfo">
+                <p id="resLabel"> Result </p>
+            </div>
+        </div>
+
+    </fieldset>
+    </div>
+
+    </form>
+
+    <section>
+        <h1>Line Graph of Infant Mortality</h1>
+        <img src="data:image/png;base64, {{ inf_mort_rate }}">
+        <h1>Total Infant Mortality 1998 - 2017</h1>
+        <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
+    </section>
+<script>
+    function isInteger(evt) {
+            var char = String.fromCharCode(evt.which);
+
+            if(!(/[0-9]/.test(char))) {
+                evt.preventDefault();
+            }
+        }
+</script>
+</body>
+</html>
