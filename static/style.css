@@ -16,9 +16,9 @@
     --biggest-font-size: 6rem;
     --h1-font-size: 1.5rem;
     --h2-font-size: 1.25rem;
-    --normal-font-size: 1rem;
-    --small-font-size:  .938rem;
-    --smaller-font-size: .813rem;
+    --normal-font-size: .938rem;
+    --small-font-size:  .813rem;
+    --smaller-font-size: .738rem;
   /*========== Font weight ==========*/
     --font-medium: 500;
     --font-semi-bold: 700;
@@ -95,10 +95,8 @@ p{
 }
 
 label, input {
-    font-weight: var(--font-medium);
     font-size: var(--normal-font-size);
     color: var(--secondary-text-color);
-    padding: 1.5%;
 }
 
 
@@ -132,7 +130,8 @@ legend{
 .col {
   float: left;
   width: 50%;
-  padding-left: 20%;
+  padding-left: 7%;
+  padding-bottom: 1%;
 }
 
 /* Clear floats after the columns */
@@ -169,7 +168,7 @@ legend{
 }
 
 input:focus{
-    outline: #2b2b2b;
+    outline: #3e3e3e8c;
     box-shadow: var(--button-color-alt) 0 10px 20px -10px;
 }
 
@@ -192,4 +191,12 @@ input:focus{
 
 #resLabel {
     color: #fffefc;
+}
+
+h3 {
+  padding-left: 3%;
+}
+
+select{
+  padding:1%;
 }
