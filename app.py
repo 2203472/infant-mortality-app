@@ -16,18 +16,36 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
-# # Use pickle to load in the pre-trained model.
-# with open(f'model/povery-prediction-lightgbm.pkl', 'rb') as f:
-#     model = pickle.load(f)
-
 app = flask.Flask(__name__,
                   static_folder='static',
                   template_folder='templates')
 
+data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
+img = BytesIO()
+
+
+def predict_infant_mortality(input_var_df):
+    # Use pickle to load in the pre-trained model.
+    with open(f'model/infant-mortality-xgboost-model.pkl', 'rb') as f:
+        model = pickle.load(f)
+
+    # Normalization of user input
+    dataset = pd.read_csv('dataset/kr-final-transformed.csv', low_memory=False)
+    scaled_df = input_var_df.copy()
+    for col in scaled_df.columns:
+        scaled_df[col] = scaled_df[col].apply(
+            lambda x: (x - dataset[col].min()) / (dataset[col].max() - dataset[col].min()))
+    input_variables = scaled_df.tail(1)
+
+    # PCA
+
+    prediction = model.predict(input_variables, predict_disable_shape_check=True)[0]
+    return prediction
+
 
 # Highest Education Attainment for each Mortality class
 
-def highest_educational_attainment_yes(yes_b5_class,img):
+def highest_educational_attainment_yes(yes_b5_class, img):
     # Bar Plot Highest Education Attainment for yes class
     no_class_education_count = yes_b5_class['V149'].value_counts()
 
@@ -48,7 +66,7 @@ def highest_educational_attainment_yes(yes_b5_class,img):
     return high_educ_attain_bar
 
 
-def highest_educational_attainment_no(no_b5_class,img):
+def highest_educational_attainment_no(no_b5_class, img):
     # Bar Plot Highest Education Attainment for no class
     no_class_education_count = no_b5_class['V149'].value_counts()
 
@@ -69,7 +87,7 @@ def highest_educational_attainment_no(no_b5_class,img):
     return high_educ_attain_bar
 
 
-def income(no_b5_class,img):
+def income(no_b5_class, img):
     # Income
     no_class_occupation_count = no_b5_class['V717'].value_counts()
     no_class_occupation_count = no_class_occupation_count[:10, ]
@@ -91,7 +109,7 @@ def income(no_b5_class,img):
     return inc
 
 
-def partner_highest_educational_attainment(no_b5_class,img):
+def partner_highest_educational_attainment(no_b5_class, img):
     # Husband/Partner's Highest Educational Attainment
     no_class_partner_education_count = no_b5_class['V729'].value_counts()
 
@@ -113,7 +131,7 @@ def partner_highest_educational_attainment(no_b5_class,img):
     return part_high_educ_attain
 
 
-def person_allocating_budget_earnings(no_b5_class,img):
+def person_allocating_budget_earnings(no_b5_class, img):
     # Person in-charge of allocating budget of respondent's earnings
     colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
 
@@ -136,7 +154,7 @@ def person_allocating_budget_earnings(no_b5_class,img):
     plt.figure(figsize=(10, 10))
 
     plt.pie(person_in_charge, labels=no_class_person_allocate_budget_list,
-            shadow=False, startangle=180, colors=colors,explode=explode,
+            shadow=False, startangle=180, colors=colors, explode=explode,
             autopct='%1.1f%%')
 
     plt.title('Person in-charge of Allocating Budget of Earnings',
@@ -152,7 +170,7 @@ def person_allocating_budget_earnings(no_b5_class,img):
     return per_alloc_bud_earn
 
 
-def infant_mortality_rate(dataset,img):
+def infant_mortality_rate(dataset, img):
     # Line Graph of Infant Mortality
     dataset['B5CLASS'].replace(['Yes', 'No'], [1, 0], inplace=True)
 
@@ -179,7 +197,7 @@ def infant_mortality_rate(dataset,img):
     return inf_mort_rate
 
 
-def total_infant_mortality_year(no_b5_class,img):
+def total_infant_mortality_year(no_b5_class, img):
     # Get different years with
     # yes value via value counts
     no_class_year_count = no_b5_class['V007'].value_counts()
@@ -202,7 +220,7 @@ def total_infant_mortality_year(no_b5_class,img):
     return inf_mort_rate_yr
 
 
-def household_amenities_region(dataset,img):
+def household_amenities_region(dataset, img):
     # Household Amenities per Region
     amenities = dataset[['V119', 'V120', 'V121', 'V122', 'V123', 'V124', 'V125']]
     variables = {'V119': "Electricity", 'V120': "Radio", 'V121': "Television", 'V122': "Refrigerator",
@@ -230,7 +248,7 @@ def household_amenities_region(dataset,img):
     return house_amen_rgn
 
 
-def respondents_prenatal_care_region(dataset,img):
+def respondents_prenatal_care_region(dataset, img):
     # Number of Respondents Receiving Prenatal Care per Region
     prenatal = dataset[['M2A', 'M2K', 'M2N']]
     variables = {'M2A': "Doctor", 'M2K': "Other", 'M2N': "No One"}
@@ -257,7 +275,7 @@ def respondents_prenatal_care_region(dataset,img):
     return resp_pre_car_rgn
 
 
-def assistance_type_region(dataset,img):
+def assistance_type_region(dataset, img):
     # Assistance Type per Region
     assistance = dataset[['M3A', 'M3H', 'M3K', 'M3N']]
     variables = {'M3A': "Doctor", 'M3H': "Barangay Health Worker", 'M3K': "Other", 'M3N': "No One"}
@@ -284,7 +302,7 @@ def assistance_type_region(dataset,img):
     return assist_typ_rgn
 
 
-def contraceptive_use_intention(dataset,img):
+def contraceptive_use_intention(dataset, img):
     # Contraceptive Use and Intention
     # explode = (0.1, 0.1, 0.1, 0.2)
     colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
@@ -322,14 +340,98 @@ def contraceptive_use_intention(dataset,img):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     if flask.request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', inf_mort_rate=infant_mortality_rate(data, img),
+                               inf_mort_rate_yr=total_infant_mortality_year(data, img))
 
     if flask.request.method == 'POST':
         if request.form['btn'] == 'predict':
+            V012 = (flask.request.form['V012'])
+            V119 = (flask.request.form['V119'])
+            V121 = (flask.request.form['V121'])
+            V122 = (flask.request.form['V122'])
+            V137 = (flask.request.form['V137'])
+            V149 = (flask.request.form['V149'])
+            V150 = (flask.request.form['V150'])
+            V201 = (flask.request.form['V201'])
+            V202 = (flask.request.form['V202'])
+            V203 = (flask.request.form['V203'])
+            V219 = (flask.request.form['V219'])
+            V337 = (flask.request.form['V337'])
+            V504 = (flask.request.form['V504'])
+            V513 = (flask.request.form['V513'])
+            V614 = (flask.request.form['V614'])
+            V729 = (flask.request.form['V729'])
+            BORD = (flask.request.form['BORD'])
+            B2 = (flask.request.form['B2'])
+            M3A = (flask.request.form['M3A'])
+            M19 = (flask.request.form['M19'])
+            V116_Flush_toilet_to_septic_tank = (flask.request.form['V116_Flush_toilet_to_septic_tank'])
+            V312_Not_using = (flask.request.form['V312_Not_using'])
+            V312_Pill = (flask.request.form['V312_Pill'])
+            V326_NA = (flask.request.form['V326_NA'])
+            V326_Pharmacy = (flask.request.form['V326_Pharmacy'])
+            V363_NA = (flask.request.form['V363_NA'])
+            V363_Pill = (flask.request.form['V363_Pill'])
+            V376_NA = (flask.request.form['V376_NA'])
+            V626_Not_married_and_no_sex_in_last_30_days = (
+                flask.request.form['V626_Not_married_and_no_sex_in_last_30_days'])
+            V626_Unmet_need_to_limit = (flask.request.form['V626_Unmet_need_to_limit'])
+            V626_Using_to_limit = (flask.request.form['V626_Using_to_limit'])
+            V626_Using_to_space = (flask.request.form['V626_Using_to_space'])
+            V705_NA = (flask.request.form['V705_NA'])
+            M15_Respondent_home = (flask.request.form['M15_Respondent_home'])
+            M19A_Not_weighed = (flask.request.form['M19A_Not_weighed'])
+            V616_NA = (flask.request.form['V616_NA'])
+            V616_Years = (flask.request.form['V616_Years'])
+            V602_Have_another = (flask.request.form['V602_Have_another'])
+            V602_No_more = (flask.request.form['V602_No_more'])
+            V501_Married = (flask.request.form['V501_Married'])
+            V501_Never_in_union = (flask.request.form['V501_Never_in_union'])
+            V364_Non_user_intend_to = (flask.request.form['V364_Non_user_intend_to'])
+            V364_Using_modern_method = (flask.request.form['V364_Using_modern_method'])
+            V362_NA = (flask.request.form['V362_NA'])
+            V362_Use_later = (flask.request.form['V362_Use_later'])
+            V361_Never_used = (flask.request.form['V361_Never_used'])
+            V361_Used_before_last_birth = (flask.request.form['V361_Used_before_last_birth'])
+            V327_NA = (flask.request.form['V327_NA'])
+            V327_Pharmacy = (flask.request.form['V327_Pharmacy'])
+            V313_Modern_method = (flask.request.form['V313_Modern_method'])
+            V313_No_method = (flask.request.form['V313_No_method'])
+            V604_NA = (flask.request.form['V604_NA'])
 
-            return render_template('index.html')
+            headers = ['V012', 'V119', 'V121', 'V122', 'V137', 'V149', 'V150', 'V201', 'V202',
+                       'V203', 'V219', 'V337', 'V504', 'V513', 'V614', 'V729', 'BORD', 'B2',
+                       'M3A', 'M19', 'V116_Flush toilet to septic tank', 'V312_Not using',
+                       'V312_Pill', 'V326_NA', 'V326_Pharmacy', 'V363_NA', 'V363_Pill',
+                       'V376_NA', 'V626_Not married and no sex in last 30 days',
+                       'V626_Unmet need to limit', 'V626_Using to limit',
+                       'V626_Using to space', 'V705_NA', "M15_Respondent's home",
+                       'M19A_Not weighed', 'V616_NA', 'V616_Year/s', 'V602_Have another',
+                       'V602_No more', 'V501_Married', 'V501_Never in union',
+                       'V364_Non-user intend to', 'V364_Using modern method', 'V362_NA',
+                       'V362_Use later', 'V361_Never used', 'V361_Used before last birth',
+                       'V327_NA', 'V327_Pharmacy', 'V313_Modern method', 'V313_No method',
+                       'V604_NA']
+
+            input_var_df = pd.DataFrame(columns=headers)
+
+            input_var_df.loc[len(input_var_df)] = [V012, V119, V121, V122, V137, V149, V150, V201, V202,
+                                                   V203, V219, V337, V504, V513, V614, V729, BORD, B2,
+                                                   M3A, M19, V116_Flush_toilet_to_septic_tank, V312_Not_using,
+                                                   V312_Pill, V326_NA, V326_Pharmacy, V363_NA, V363_Pill,
+                                                   V376_NA, V626_Not_married_and_no_sex_in_last_30_days,
+                                                   V626_Unmet_need_to_limit, V626_Using_to_limit,
+                                                   V626_Using_to_space, V705_NA, M15_Respondent_home,
+                                                   M19A_Not_weighed, V616_NA, V616_Years, V602_Have_another,
+                                                   V602_No_more, V501_Married, V501_Never_in_union,
+                                                   V364_Non_user_intend_to, V364_Using_modern_method, V362_NA,
+                                                   V362_Use_later, V361_Never_used, V361_Used_before_last_birth,
+                                                   V327_NA, V327_Pharmacy, V313_Modern_method, V313_No_method,
+                                                   V604_NA]
+
+            result = predict_infant_mortality(input_var_df)
+            return render_template('index.html', result=result)
 
     if request.form['btn'] == 'plot':
         region = request.form["region"]
@@ -339,24 +441,21 @@ def index():
 @app.route('/<rgn>')
 def descriptive_statistics(rgn):
     region_value = rgn
-    img = BytesIO()
-    data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
     dataset_rgn = data.copy()
     dataset_rgn = dataset_rgn.loc[dataset_rgn['V024'] == region_value]
     yes_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('Yes')]
     no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('No')]
 
-    return render_template("sample.html", high_educ_attain_bar_yes=highest_educational_attainment_yes(yes_b5_class,img),
-                           high_educ_attain_bar_no=highest_educational_attainment_no(no_b5_class,img),
-                           inc=income(no_b5_class,img),
-                           part_high_educ_attain=partner_highest_educational_attainment(no_b5_class,img),
-                           per_alloc_bud_earn=person_allocating_budget_earnings(no_b5_class,img),
-                           inf_mort_rate=infant_mortality_rate(data,img),
-                           inf_mort_rate_yr=total_infant_mortality_year(data,img),
-                           house_amen_rgn=household_amenities_region(dataset_rgn,img),
-                           resp_pre_car_rgn=respondents_prenatal_care_region(dataset_rgn,img),
-                           assist_typ_rgn=assistance_type_region(dataset_rgn,img),
-                           cont_use_int=contraceptive_use_intention(dataset_rgn,img)
+    return render_template("sample.html",
+                           high_educ_attain_bar_yes=highest_educational_attainment_yes(yes_b5_class, img),
+                           high_educ_attain_bar_no=highest_educational_attainment_no(no_b5_class, img),
+                           inc=income(no_b5_class, img),
+                           part_high_educ_attain=partner_highest_educational_attainment(no_b5_class, img),
+                           per_alloc_bud_earn=person_allocating_budget_earnings(no_b5_class, img),
+                           house_amen_rgn=household_amenities_region(dataset_rgn, img),
+                           resp_pre_car_rgn=respondents_prenatal_care_region(dataset_rgn, img),
+                           assist_typ_rgn=assistance_type_region(dataset_rgn, img),
+                           cont_use_int=contraceptive_use_intention(dataset_rgn, img)
                            )
 
 
