@@ -101,51 +101,6 @@ def highest_educational_attainment_yes(dataset_rgn, img):
     return high_educ_attain_bar
 
 
-def highest_educational_attainment_no(dataset_rgn, img):
-    # Bar Plot Highest Education Attainment for no class
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_education_count = no_b5_class['V149'].value_counts()
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_education_count.index, y=no_class_education_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_education_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    high_educ_attain_bar = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return high_educ_attain_bar
-
-
-def income(dataset_rgn, img):
-    # Income
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_occupation_count = no_b5_class['V717'].value_counts()
-    no_class_occupation_count = no_class_occupation_count[:10, ]
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_occupation_count.index, y=no_class_occupation_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_occupation_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title("Top 10 Occupations of Respondent's Having Positive Infant Mortality", fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    inc = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return inc
-
-
 def partner_highest_educational_attainment(dataset_rgn, img):
     # Husband/Partner's Highest Educational Attainment
     no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
@@ -167,6 +122,58 @@ def partner_highest_educational_attainment(dataset_rgn, img):
     part_high_educ_attain = base64.b64encode(img.getvalue()).decode('utf8')
 
     return part_high_educ_attain
+
+
+def top_10_occupation_respondents(dataset_rgn, img):
+    # Bar Plot Top 10 Occupation of Respondent's for no class
+    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
+    no_class_occupation_count = no_b5_class['V717'].value_counts()
+    no_class_occupation_count = no_class_occupation_count[:10, ]
+
+    plt.figure(figsize=(15, 7))
+    ax1 = sns.barplot(x=no_class_occupation_count.index, y=no_class_occupation_count.values, palette="pastel",
+                      edgecolor=".6", hue=no_class_occupation_count.index, dodge=False)
+    plt.ylabel('Total Count')
+    plt.title("Top 10 Occupations of Respondent's Having Positive Infant Mortality", fontsize=20)
+
+    for container in ax1.containers:
+        ax1.bar_label(container, padding=3)
+
+    plt.xticks(rotation=70)
+    plt.tight_layout()
+
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    top_10_occu_respo = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return top_10_occu_respo
+
+
+def top_10_occupation_partners(dataset_rgn,img):
+    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
+    no_class_partner_occupation_count = no_b5_class['V705'].value_counts()
+    no_class_partner_occupation_count = no_class_partner_occupation_count[:10, ]
+
+    plt.figure(figsize=(15, 7))
+    ax1 = sns.barplot(x=no_class_partner_occupation_count.index, y=no_class_partner_occupation_count.values,
+                      palette="pastel",
+                      edgecolor=".6", hue=no_class_partner_occupation_count.index, dodge=False)
+    plt.ylabel('Total Count')
+    plt.title("Husband/Partner's Top 10 Occupations Having Positive Infant Mortality", fontsize=20)
+
+    for container in ax1.containers:
+        ax1.bar_label(container, padding=3)
+
+    plt.xticks(rotation=70)
+    plt.tight_layout()
+
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    top_10_occu_part = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return top_10_occu_part
 
 
 def person_allocating_budget_earnings(dataset_rgn, img):

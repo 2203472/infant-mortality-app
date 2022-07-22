@@ -361,9 +361,9 @@ def descriptive_statistics(rgn):
 
     return render_template("plot.html",
                            high_educ_attain_bar_yes=package.highest_educational_attainment_yes(dataset_rgn, img),
-                           high_educ_attain_no=package.highest_educational_attainment_no(dataset_rgn, img),
                            region_value=rgn,
-                           inc=package.income(dataset_rgn, img),
+                           top_10_occu_respo=package.top_10_occupation_respondents(dataset_rgn, img),
+                           top_10_occu_part=package.top_10_occupation_partners(dataset_rgn, img),
                            part_high_educ_attain=package.partner_highest_educational_attainment(dataset_rgn, img),
                            per_alloc_bud_earn=package.person_allocating_budget_earnings(dataset_rgn, img),
                            house_amen_rgn=package.household_amenities_region(dataset_rgn, img),
