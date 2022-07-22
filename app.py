@@ -446,7 +446,7 @@ def descriptive_statistics(rgn):
     yes_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('Yes')]
     no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'].str.contains('No')]
 
-    return render_template("sample.html",
+    return render_template("index.html",
                            high_educ_attain_bar_yes=highest_educational_attainment_yes(yes_b5_class, img),
                            high_educ_attain_bar_no=highest_educational_attainment_no(no_b5_class, img),
                            inc=income(no_b5_class, img),
@@ -456,7 +456,8 @@ def descriptive_statistics(rgn):
                            resp_pre_car_rgn=respondents_prenatal_care_region(dataset_rgn, img),
                            assist_typ_rgn=assistance_type_region(dataset_rgn, img),
                            cont_use_int=contraceptive_use_intention(dataset_rgn, img)
-                           )
+    )
+
 
 
 # @app.route('/<rgn>')

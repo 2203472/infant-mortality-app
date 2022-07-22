@@ -9,11 +9,11 @@
 <nav class="navbar">
     <div class="nav-con">
       <div class="logo">
-        <h1><a href="#">PENATICS</a></h1>
+        <h1><a href="index.html">PENATICS</a></h1>
       </div>
   
       <ul class="menu">
-        <li><a href="#">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="#">About</a></li>
       </ul>
     </div>
@@ -117,6 +117,7 @@
     </div>
 
     </form>
+    <hr>
 
     <section>
         <h1>Line Graph of Infant Mortality</h1>
@@ -124,6 +125,91 @@
         <h1>Total Infant Mortality 1998 - 2017</h1>
         <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
     </section>
+    <!--Shows results. Concat for index.html and sample.html-->
+    <div class="container1">
+        <h2>Infant Mortality Statistics by Region</h2>
+		<p class="shortDesc">Select a region to display its poverty statistics</p>
+        <form method = "POST">
+            <select id = "region" name = "region">
+                <option value = "I - Ilocos Region">I - Ilocos Region</option>
+                <option value = "II - Cagayan Valley">II - Cagayan Valley</option>
+                <option value = "III - Central Luzon">III - Central Luzon</option>
+                <option value = "IVA - CALABARZON">IV A - CALABARZON </option>
+                <option value = "IV B - MIMAROPA">MIMAROPA</option>
+                <option value = "V - Bicol">V - Bicol</option>
+                <option value = "VI - Western Visayas">VI - Western Visayas</option>
+                <option value = "VII - Central Visayas">VII - Central Visayas</option>
+                <option value = "VIII - Eastern Visayas">VIII - Eastern Visayas</option>
+                <option value = "IX - Zamboanga Peninsula">IX - Zamboanga Peninsula</option>
+                <option value = "X - Northern Mindanao">X - Northern Mindanao</option>
+                <option value = "XI - Davao">XI - Davao</option>
+                <option value = "XII - SOCCSKSARGEN">XII - SOCCSKSARGEN</option>
+                <option value = "Caraga">XIII - Caraga</option>
+                <option value = "National Capital Region (NCR)">National Capital Region (NCR)</option>
+                <option value = "Cordillera Administrative Region (CAR)">Cordillera Administrative Region (CAR)</option>
+                <option value = "Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)">Bangsamoro Autonomous Region In Muslim Mindanao (BARMM)</option>
+            </select>
+			<input type = "submit" name="btn" value="plot" class="plotButton">
+		</form>
+
+        <h1>Descriptive Statistics for {{ region_value }}</h1>
+
+        <h2>Highest Education Attainment Yes</h2> 
+        <div class="resContainer">
+            <img src="data:image/png;base64, {{ high_educ_attain_bar_yes }}">
+        </div>
+
+        <h2>Highest Education Attainment No</h2>
+        <div class="resContainer">
+            <img src="data:image/png;base64, {{ high_educ_attain_bar_no }}">
+        </div>
+        <h2>Income</h2>
+        <div class="resContainer">
+            <img src="data:image/png;base64, {{ inc }}">
+        </div>
+        
+        <h2>Husband/Partner's Highest Educational Attainment</h2>
+        <div class="resContainer">
+            <img src="data:image/png;base64, {{ part_high_educ_attain }}">
+        </div>
+
+        <h2>Person in-charge of allocating budget of respondent's earnings</h2>
+        <div class="resContainer">
+            <img src="data:image/png;base64, {{ per_alloc_bud_earn }}">
+        </div>
+        <h2>Line Graph of Infant Mortality</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ inf_mort_rate }}">
+        </div>
+        <h2>Total Infant Mortality 1998 - 2017</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
+        </div>
+        <h2>Number of Respondents Receiving Prenatal Care per Region</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ resp_pre_car_rgn }}">
+        </div>
+        <h2>Household Amenities per Region</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ house_amen_rgn }}">
+        </div>
+        <h2>Assistance Type per Region</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ assist_typ_rgn }}">
+        </div>
+        <h2>Contraceptive Use and Intention</h2>
+        <div class="resContainer">
+
+            <img src="data:image/png;base64, {{ cont_use_int }}">
+        </div>
+
+    </div>
+
 <script>
     function isInteger(evt) {
             var char = String.fromCharCode(evt.which);

@@ -89,9 +89,11 @@ div{
     display: block;
 }
 
-p{
+
+.shortDesc{
     font-size: var(--normal-font-size);
     color: var(--text-color);
+    text-align: center;
 }
 
 label, input {
@@ -115,9 +117,16 @@ form {
     box-shadow: 2px 3px 10px rgba(75, 75, 75, 0.458);
 }
 
+.container::after{
+  content: "";
+  display: table;
+  clear: both;
+}
+
 fieldset{
     color: var(--title-color);
     border-style: ridge;
+    padding-bottom: 20px;
 }
 
 legend{
@@ -146,7 +155,7 @@ legend{
 }
 
 .submitBtn{
-    margin:4% 0 2% 50%;
+    margin:4% 0 2% 40%;
     background: var(--button-color-alt);
     border-radius: 10px;
     font-size: var(--normal-font-size);
@@ -169,9 +178,9 @@ input:focus{
 
 .resInfo{
     background-color: var(--button-color-alt);
-    margin: 2% 0 1% 10%;
+    margin-left: 10%;
     float: left;
-    width: 100%;
+    width: 80%;
     text-align: center;
     border-radius: 10px;
     font-size: var(--normal-font-size);
@@ -181,4 +190,91 @@ input:focus{
 
 #resLabel {
     color: #fffefc;
+}
+
+.container1{
+  margin-bottom: 5%;
+  animation:fadeIn 500ms;
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from {
+  	opacity: 0;
+  }
+  to {
+ 	opacity: 1;
+  }
+}
+
+form{
+  font-family: var(--body-font);
+  font-size: var(--small-font-size);
+  margin: auto;
+  width: 50%;
+}
+
+h2{
+  font-family: var(--body-font);
+  font-size: var(--h2-font-size);
+  text-align: center;
+
+}
+
+h1{
+  font-family: var(--body-font);
+  font-size: var(--h1-font-size);
+  text-align: center;
+}
+
+.resCol {
+  content: "";
+  clear: both;
+}
+.resContainer{
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 2%;
+  box-shadow: 0 10px 50px hsl(0, 0%, 90%);
+  margin: 30px auto 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transform: translate3d(0,0,0);
+  width: 80%;
+}
+
+img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+select {
+  height: 2vw;
+  width: 75%;
+  padding-left: 2%;
+  padding-right: 2%;
+  border: 0px;
+  outline: 0px;
+  margin-right: 2%;
+  border: 1px solid var(--title-color);
+}
+
+.plotButton, .backButton {
+  border-radius: 10px;
+  width: 20%;
+  cursor: pointer;
+  font-weight: var(--font-semi-bold);
+  line-height: 24px;
+  box-shadow:var(--secondary-text-color) 0 10px 20px -10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border: 0;
+  background-color: var(--button-color-alt1);
+  color: var(--bg-color);
+  opacity: 1;
+  outline: 0 solid transparent;
 }
