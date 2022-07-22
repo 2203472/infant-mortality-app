@@ -9,11 +9,11 @@
 <nav class="navbar">
     <div class="nav-con">
       <div class="logo">
-        <h1><a href="index.html">PENATICS</a></h1>
+        <h1><a href="#">PENATICS</a></h1>
       </div>
-  
+
       <ul class="menu">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
       </ul>
     </div>
@@ -47,300 +47,318 @@
         </section>
 
     <div class="container">
-    <fieldset>
-        <legend> Form </legend>
-        <form action="{{ url_for('index') }}" method="POST">
-        <div class="row">
-            <h3> Demographic </h3>
-            <div class="col">
-                <label for="label"> Current age: </label>
-                <input name="v012" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Husband/partner's educational attainment: </label>
-                <select name="v729-label" id="v729">
-                    <option value="v729-0">No education</option>
-                    <option value="v729-1">Incomplete primary</option>
-                    <option value="v729-2">Complete primary</option>
-                    <option value="v729-3">Incomplete secondary</option>
-                    <option value="v729-4">Complete secondary</option>
-                    <option value="v729-5">Higher</option>
-                    <option value="v729-7">Don't know</option>
-                    <option value="v729-9">Missing</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Educational attainment: </label>
-                <select name="v149-label" id="v149">
-                    <option value="v149-0">No education</option>
-                    <option value="v149-1">Incomplete primary</option>
-                    <option value="v149-2">Complete primary</option>
-                    <option value="v149-3">Incomplete secondary</option>
-                    <option value="v149-4">Complete secondary</option>
-                    <option value="v149-5">Higher</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Relationship to household head: </label>
-                <select name="v150-label" id="v150">
-                    <option value="v150-0">Not related</option>
-                    <option value="v150-1">Adopted/foster child</option>
-                    <option value="v150-2">Other relative</option>
-                    <option value="v150-3">Sister</option>
-                    <option value="v150-4">Mother-in-law</option>
-                    <option value="v150-5">Grand-daughter</option>
-                    <option value="v150-6">Daughter-in-law</option>
-                    <option value="v150-7">Daughter</option>
-                    <option value="v150-8">Wife</option>
-                    <option value="v150-9">Head</option>
-                    <option value="v150-10">Mother</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Currently residing with husband/partner: </label>
-                <select name="v504-label" id="v504">
-                    <option value="v504-0">Staying elsewhere</option>
-                    <option value="v504-1">Living with her</option>
-                    <option value="v504-2">Other relative</option>
-                    <option value="v504-8">Missing</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Current marital status: </label>
-                <select name="v501-one" id="v501">
-                    <option value="v501-0">Question not applicable</option>
-                    <option value="v501-1">Never in uninon</option>
-                    <option value="v501-2">Married</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Cohabitation duration: </label>
-                <select name="v513-label" id="v513">
-                    <option value="v513-0">Never married</option>
-                    <option value="v513-1">0-4 years</option>
-                    <option value="v513-2">5-9 years</option>
-                    <option value="v513-3">10-14 years</option>
-                    <option value="v513-4">15-19 years </option>
-                    <option value="v513-5">20-24 years</option>
-                    <option value="v513-6">25-29 years</option>
-                </select>
-            </div>     
-            
-        </div>
+        <fieldset>
+            <legend> Form </legend>
+            <form action="{{ url_for('index') }}" method="POST">
+            <div class="row">
+                <h3> Demographic </h3>
+                <div class="col">
+                    <label for="label"> Current age: </label>
+                    <input name="v012" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Husband/partner's educational attainment: </label>
+                    <select name="v729_label" id="v729">
+                        <option value="No education">No education</option>
+                        <option value="Incomplete primary">Incomplete primary</option>
+                        <option value="Complete primary">Complete primary</option>
+                        <option value="Incomplete secondary">Incomplete secondary</option>
+                        <option value="Complete secondary">Complete secondary</option>
+                        <option value="Higher">Higher</option>
+                        <option value="Don't know">Don't know</option>
+                        <option value="Missing">Missing</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Educational attainment: </label>
+                    <select name="v149_label" id="v149">
+                        <option value="No education">No education</option>
+                        <option value="Incomplete primary">Incomplete primary</option>
+                        <option value="Complete primary">Complete primary</option>
+                        <option value="Incomplete secondary">Incomplete secondary</option>
+                        <option value="Complete secondary">Complete secondary</option>
+                        <option value="Higher">Higher</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Relationship to household head: </label>
+                    <select name="v150_label" id="v150_label">
+                        <option value="Not related">Not related</option>
+                        <option value="Adopted/foster child">Adopted/foster child</option>
+                        <option value="Other relative">Other relative</option>
+                        <option value="Sister">Sister</option>
+                        <option value="Mother-in-law">Mother-in-law</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Grand-daughter">Grand-daughter</option>
+                        <option value="Daughter-in-law">Daughter-in-law</option>
+                        <option value="Daughter">Daughter</option>
+                        <option value="Wife">Wife</option>
+                        <option value="Head">Head</option>
 
-        <div class="row">
-            <h3> Household members and Household characteristics </h3>
-            <div class="col">
-                <label for="label"> Daughters at Home: </label>
-                <input name="v203" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Number of children 5 and under in household (de jure): </label>
-                <input name="v137" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Sons at home: </label>
-                <input name="v202" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Living children + current pregnancy: </label>
-                <input name="v219" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Total children ever born: </label>
-                <input name="v201" onkeypress="isInteger(event)" required>
-            </div>    
-        </div>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Currently residing with husband/partner: </label>
+                    <select name="v504_label" id="v504_label">
+                        <option value="Staying elsewhere">Staying elsewhere</option>
+                        <option value="Living with her">Living with her</option>
+                        <option value="Other relative">Question not applicable<option>
+                        <option value="Missing">Missing</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Current marital status: </label>
+                    <select name="v501_one" id="v501_one">
+                        <option value="v501-0">Question not applicable</option>
+                        <option value="v501-1">Never in uninon</option>
+                        <option value="v501-2">Married</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Cohabitation duration: </label>
+                    <select name="v513_label" id="v513_label">
+                        <option value="Never married">Never married</option>
+                        <option value="0-4 years">0-4 years</option>
+                        <option value="5-9 years">5-9 years</option>
+                        <option value="10-14 years">10-14 years</option>
+                        <option value="15-19 years">15-19 years </option>
+                        <option value="20-24 years">20-24 years</option>
+                        <option value="25-29 years">25-29 years</option>
+                    </select>
+                </div>
 
-        <div class="row">
-            <div class="col">
-                <label for="label"> Household has: electricity: </label>
-                <select name="v119-label" id="v119">
-                    <option value="v119-0">No</option>
-                    <option value="v119-1">Yes</option>
-                    <option value="v119-8">Not applicable</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Household has: refrigerator: </label>
-                <select name="v122-label" id="v122">
-                    <option value="v122-0">No</option>
-                    <option value="v122-1">Yes</option>
-                    <option value="v122-8">Not applicable</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Household has: television: </label>
-                <select name="v121-label" id="v121">
-                    <option value="v121-0">No</option>
-                    <option value="v121-1">Yes</option>
-                    <option value="v121-8">Not applicable</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label">Toilet facility includes septic tank: </label>
-                <select name="v116-label" id="v116">
-                    <option value="v116-0">No / Different Facility </option>
-                    <option value="v116-1">Yes</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <h3> Birth of Child Details </h3>
-            <div class="col">
-                <label for="label"> Birth order number: </label>
-                <input name="bord" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Place of delivery at respondent's home: </label>
-                <select name="m15-one" id="m15">
-                    <option value="m15-0">No</option>
-                    <option value="m15-1">Yes</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Year of birth: </label>
-                <input name="b2" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Birth weight in kilograms (3 decimals): </label>
-                <input name="m19" onkeypress="isFloat(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Prenatal: doctor: </label>
-                <select name="m3a-label" id="m3a">
-                    <option value="m3a-0">No</option>
-                    <option value="m3a-1">Yes</option>
-                    <option value="m3a-8">Missing</option>
-                    <option value="m3a-9">Question not applicable</option>
-                </select>
-            </div>    
-            <div class="col">
-                <label for="label"> Weight at birth/recall: </label>
-                <input name="inputSamp" onkeypress="isFloat(event)" required>
-            </div>   
-        </div>
-
-        <div class="row">
-            <h3> Family Planning </h3>
-            <div class="col">
-                <label for="label"> Fertility preference: </label>
-                <select name="v602-one" id="v602">
-                    <option value="v602-0">Non of the choices</option>
-                    <option value="v602-1">Have Another</option>
-                    <option value="v602-2">No more</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Unmet need (definition 2): </label>
-                <select name="v626-one" id="v626">
-                    <option value="v626-0">Question not applicable</option>
-                    <option value="v626-1">Not married and no sex in last 30 days</option>
-                    <option value="v626-2">Unmet need to limit</option>
-                    <option value="v626-3">Using to limit</option>
-                    <option value="v626-4">Using to space</option>
-                    <option value="v626-5">Higher</option>
-                </select>
-                
-            </div>
-            <div class="col">
-                <label for="label"> Ideal number of children (grouped): </label>
-                <input name="v614" onkeypress="isInteger(event)" required>
-            </div>
-        
-            <div class="col">
-                <label for="label"> Do you use pill as a contraceptive: </label>
-                <select name="v312-one" id="v312">
-                    <option value="v312-0">Yes</option>
-                    <option value="v312-1">No</option>
-                    <option value="v312-2">Not using any contraceptive</option>
-                </select>
-                
-            </div>    
-            <div class="col">
-                <label for="label"> Do you use modern methods: </label>
-                <select name="v364-one" id="v364">
-                    <option value="v364-0">Yes</option>
-                    <option value="v364-1">No</option>
-                    <option value="v364-2">Non user but intends to use</option>
-                </select>
-            </div>  
-            <div class="col">
-                <label for="label"> How many months are you using your current method: </label>V337
-                <input name="inputSamp" onkeypress="isInteger(event)" required>
-            </div>
-            <div class="col">
-                <label for="label"> Do you intend to use later: </label>
-                <select name="v362-one" id="v362">
-                    <option value="v362-0">Yes</option>
-                    <option value="v362-1">No</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Last source for current users is the Pharmacy: </label>
-                <select name="v363-one" id="v362">
-                    <option value="v363-0">Yes</option>
-                    <option value="v363-1">No</option>
-                    <option value="v363-1">Not Applicable</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Pattern of use: </label>
-                <select name="v361-one" id="v362">
-                    <option value="v361-0">Never Use</option>
-                    <option value="v361-1">Used before last birth</option>
-                    <option value="v361-1">Not Applicable</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="label"> Last source for users by type is the Pharmacy:: </label>
-                <select name="v327-one" id="v327">
-                    <option value="v327-0">Yes</option>
-                    <option value="v327-1">No</option>
-                    <option value="v327-1">Not Applicable</option>
-                </select>
-            </div>  
-            <div class="col">
-                <label for="label"> Current use by method type: </label>
-                <select name="v313-one" id="v327">
-                    <option value="v313-0">Modern Method</option>
-                    <option value="v313-1">No Method</option>
-                    <option value="v313-1">Not Applicable</option>
-                </select>
-            </div> 
-        
-        </div>
-    </div>
-        <div class="resCol">
-            <div class="res">
-                <input type="submit" name="btn" value="Predict" class="submitBtn">
             </div>
 
-            <div class="resInfo">
-                <p id="resLabel"> Result </p>
+            <div class="row">
+                <h3> Household members and Household characteristics </h3>
+                <div class="col">
+                    <label for="label"> Daughters at Home: </label>
+                    <input name="v203" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Number of children 5 and under in household (de jure): </label>
+                    <input name="v137" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Sons at home: </label>
+                    <input name="v202" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Living children + current pregnancy: </label>
+                    <input name="v219" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Total children ever born: </label>
+                    <input name="v201" onkeypress="isInteger(event)" required>
+                </div>
             </div>
-        </div>
 
-    </fieldset>
+            <div class="row">
+                <div class="col">
+                    <label for="label"> Household has: electricity: </label>
+                    <select name="v119_label" id="v119_label">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                        <option value=">Not applicable">Not applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Household has: refrigerator: </label>
+                    <select name="v122_label" id="v122_label">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                        <option value="Not applicable">Not applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Household has: television: </label>
+                    <select name="v121_label" id="v121_label">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                        <option value="Not applicable">Not applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label">Toilet facility includes septic tank: </label>
+                    <select name="v116_label" id="v116_label">
+                        <option value="No / Different Facility">No / Different Facility </option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3> Birth of Child Details </h3>
+                <div class="col">
+                    <label for="label"> Birth order number: </label>
+                    <input name="bord" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Place of delivery at respondent's home: </label>
+                    <select name="m15_one" id="m15_one">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Year of birth: </label>
+                    <input name="b2" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Birth weight in kilograms (3 decimals): </label>
+                    <input name="m19" onkeypress="isFloat(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Prenatal: doctor: </label>
+                    <select name="m3a_label" id="m3a_label">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                        <option value="Missing">Missing</option>
+                        <option value="Question not applicable">Question not applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Was the child weighted: </label>
+                    <select name="m19a" id="m19a">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3> Family Planning </h3>
+                <div class="col">
+                    <label for="label"> Fertility preference: </label>
+                    <select name="v602_one" id="v602_one">
+                        <option value="None of the choices">Non of the choices</option>
+                        <option value="Have Another">Have Another</option>
+                        <option value="No more">No more</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Unmet need (definition 2): </label>
+                    <select name="v626_one" id="v626_one">
+                        <option value="Question not applicable">Question not applicable</option>
+                        <option value="Not married and no sex in last 30 days">Not married and no sex in last 30 days</option>
+                        <option value="Unmet need to limit">Unmet need to limit</option>
+                        <option value="Using to limit">Using to limit</option>
+                        <option value="Using to space">Using to space</option>
+                        <!-- <option value="Higher">Higher</option> -->
+                    </select>
+
+                </div>
+                <div class="col">
+                    <label for="label"> Ideal number of children (grouped): </label>
+                    <input name="v614" onkeypress="isInteger(event)" required>
+                </div>
+
+                <div class="col">
+                    <label for="label"> Do you use pill as a contraceptive: </label>
+                    <select name="v312_one" id="v312_one">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not using any contraceptive">Not using any contraceptive</option>
+                    </select>
+
+                </div>
+                <div class="col">
+                    <label for="label"> Do you use modern methods: </label>
+                    <select name="v364_one" id="v364_one">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Non user but intends to use">Non user but intends to use</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> How many months are you using your current method: </label>
+                    <input name="v337" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="col">
+                    <label for="label"> Do you intend to use later: </label>
+                    <select name="v362_one" id="v362_one">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Pattern of use: </label>
+                    <select name="v361_one" id="v361_one">
+                        <option value="Never Use">Never Used</option>
+                        <option value="Used before last birth">Used before last birth</option>
+                        <option value="Not Applicable">Not Applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Last source for users by type is the Pharmacy: </label>
+                    <select name="v327_one" id="v327_one">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not Applicable">Not Applicable</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="label"> Current use by method type: </label>
+                    <select name="v313_one" id="v313_one">
+                        <option value="Modern Method">Modern Method</option>
+                        <option value="No Method">No Method</option>
+                        <option value="Not Applicable">Not Applicable</option>
+                    </select>
+                </div>
+
+            </div>
+            </div>
+<!--
+            <div class="col">
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+                <div class="row">
+                    <label for="label"> Text: </label>
+                    <input name="inputSamp" placeholder="temp" onkeypress="isInteger(event)" required>
+                </div>
+            </div> -->
+            <div class="resCol">
+                <div class="res">
+                    <input type="submit" name="btn" value="Predict" class="submitBtn">
+                </div>
+
+                <div class="resInfo">
+                    <p id="resLabel"> Result </p>
+                </div>
+            </div>
+
+        </fieldset>
 
     </div>
 
 
 
     </form>
-    <div class="container1">
-        <br>
-        <h2>Line Graph of Infant Mortality</h2>
-        <div class="set">
-            <img src="data:image/png;base64, {{ inf_mort_rate }}">
-        </div>
-        <br>
-        <h2>Total Infant Mortality 1998 - 2017</h2>
-        <div class="set">
-            <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">        
-        </div>
-    </div>
+
+    <section>
+        <h1>Line Graph of Infant Mortality</h1>
+        <img src="data:image/png;base64, {{ inf_mort_rate }}">
+        <h1>Total Infant Mortality 1998 - 2017</h1>
+        <img src="data:image/png;base64, {{ inf_mort_rate_yr }}">
+    </section>
 
 
 <script>

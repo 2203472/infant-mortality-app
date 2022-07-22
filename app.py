@@ -4,6 +4,7 @@ import pickle
 
 import flask
 import pandas as pd
+from python_package import package
 from scipy.stats import stats
 from sklearn import preprocessing
 import seaborn as sns
@@ -21,448 +22,385 @@ app = flask.Flask(__name__,
                   template_folder='templates')
 
 
-def predict_infant_mortality(input_var_df):
-    # Use pickle to load in the pre-trained model.
-    with open(f'model/infant-mortality-xgboost-model.pkl', 'rb') as f:
-        model = pickle.load(f)
-
-    # Normalization of user input
-    dataset = pd.read_csv('dataset/kr-final-transformed.csv', low_memory=False)
-    scaled_df = input_var_df.copy()
-    for col in scaled_df.columns:
-        scaled_df[col] = scaled_df[col].apply(
-            lambda x: (x - dataset[col].min()) / (dataset[col].max() - dataset[col].min()))
-    input_variables = scaled_df.tail(1)
-
-    # PCA
-
-    prediction = model.predict(input_variables, predict_disable_shape_check=True)[0]
-    return prediction
-
-
-# Highest Education Attainment for each Mortality class
-
-def highest_educational_attainment_yes(dataset_rgn, img):
-    # Bar Plot Highest Education Attainment for yes class
-    yes_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'Yes']
-
-    no_class_education_count = yes_b5_class['V149'].value_counts()
-    print(no_class_education_count)
-
-    print(no_class_education_count)
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_education_count.index, y=no_class_education_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_education_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    high_educ_attain_bar = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return high_educ_attain_bar
-
-
-def highest_educational_attainment_no(dataset_rgn, img):
-    # Bar Plot Highest Education Attainment for no class
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_education_count = no_b5_class['V149'].value_counts()
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_education_count.index, y=no_class_education_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_education_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    high_educ_attain_bar = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return high_educ_attain_bar
-
-
-def income(dataset_rgn, img):
-    # Income
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_occupation_count = no_b5_class['V717'].value_counts()
-    no_class_occupation_count = no_class_occupation_count[:10, ]
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_occupation_count.index, y=no_class_occupation_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_occupation_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title("Top 10 Occupations of Respondent's Having Positive Infant Mortality", fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    inc = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return inc
-
-
-def partner_highest_educational_attainment(dataset_rgn, img):
-    # Husband/Partner's Highest Educational Attainment
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_partner_education_count = no_b5_class['V729'].value_counts()
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_partner_education_count.index, y=no_class_partner_education_count.values,
-                      palette="pastel",
-                      edgecolor=".6", hue=no_class_partner_education_count.index, dodge=False)
-    plt.ylabel('Total Count')
-    plt.title("Husband/Partner's Highest Education Attainment Having Positive Infant Mortality", fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    part_high_educ_attain = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return part_high_educ_attain
-
-
-def person_allocating_budget_earnings(dataset_rgn, img):
-    # Person in-charge of allocating budget of respondent's earnings
-    colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
-
-    no_b5_class = dataset_rgn.loc[dataset_rgn['B5CLASS'] == 'No']
-    no_class_person_allocate_budget_count = no_b5_class['V739'].value_counts()
-    no_class_person_allocate_budget_list = list(no_class_person_allocate_budget_count.keys())
-
-    num_index = len(no_class_person_allocate_budget_count.index)
-    temp = []
-    for i in range(0, num_index):
-        value = 0.1
-        temp.append(value)
-
-    explode = tuple(temp)
-
-    person_in_charge = []
-
-    for key in no_class_person_allocate_budget_count.keys():
-        person_in_charge.append(no_class_person_allocate_budget_count[key])
-
-    plt.figure(figsize=(10, 10))
-
-    plt.pie(person_in_charge, labels=no_class_person_allocate_budget_list,
-            shadow=False, startangle=180, colors=colors, explode=explode,
-            autopct='%1.1f%%')
-
-    plt.title('Person in-charge of Allocating Budget of Earnings',
-              fontname="Century Gothic",
-              size=18)
-    plt.tight_layout()
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    per_alloc_bud_earn = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return per_alloc_bud_earn
-
-
-def infant_mortality_rate(dataset, img):
-    # Line Graph of Infant Mortality
-    dataset['B5CLASS'].replace(['Yes', 'No'], [1, 0], inplace=True)
-
-    one = (288 / 7165) * 100
-    two = (207 / 6894) * 100
-    three = (159 / 5945) * 100
-    four = (167 / 6565) * 100
-    five = (219 / 10303) * 100
-
-    values = [one, two, three, four, five]
-    years = ["1998", "2003", "2008", "2013", "2017"]
-
-    plt.figure(figsize=(15, 7))
-    plt.plot(years, values)
-    plt.xlabel('Year')
-    plt.ylabel('Total Positive Infant Mortality')
-    plt.title("Total Infant Mortality for Each Year", fontsize=20)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    inf_mort_rate = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return inf_mort_rate
-
-
-def total_infant_mortality_year(no_b5_class, img):
-    # Get different years with
-    # yes value via value counts
-    no_class_year_count = no_b5_class['V007'].value_counts()
-
-    plt.figure(figsize=(15, 7))
-    ax1 = sns.barplot(x=no_class_year_count.index, y=no_class_year_count.values, palette="pastel",
-                      edgecolor=".6", hue=no_class_year_count.index, dodge=False)
-    plt.xlabel('Year')
-    plt.ylabel('Total Positive Infant Mortality')
-    plt.title("Total Infant Mortality for Each Year", fontsize=20)
-
-    for container in ax1.containers:
-        ax1.bar_label(container, padding=3)
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    inf_mort_rate_yr = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return inf_mort_rate_yr
-
-
-def household_amenities_region(dataset, img):
-    # Household Amenities per Region
-    amenities = dataset[['V119', 'V120', 'V121', 'V122', 'V123', 'V124', 'V125']]
-    variables = {'V119': "Electricity", 'V120': "Radio", 'V121': "Television", 'V122': "Refrigerator",
-                 'V123': "Bicycle", 'V124': "Motorcycle/Scooter", 'V125': "Car/Truck"}
-
-    amenities = amenities.rename(columns=variables).apply(pd.Series.value_counts)
-
-    amenities_reshaped = pd.melt(amenities, var_name="Amenities", value_name="Quantity", ignore_index=False)
-    amenities_reshaped['Ownership'] = amenities_reshaped.index
-    amenities_reshaped = amenities_reshaped[amenities_reshaped['Ownership'] != 'Missing']
-
-    colors = ['#DF9D9E', '#BF899C']
-    plt.figure(figsize=(15, 7))
-
-    plot = sns.catplot(x="Quantity", y="Amenities", hue="Ownership", data=amenities_reshaped,
-                       kind='bar', aspect=2.5, dodge=False, palette=colors)
-    plot.fig.suptitle("Household Amenities per Region", font="Century Gothic", fontsize=20)
-    plt.tight_layout()
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    house_amen_rgn = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return house_amen_rgn
-
-
-def respondents_prenatal_care_region(dataset, img):
-    # Number of Respondents Receiving Prenatal Care per Region
-    prenatal = dataset[['M2A', 'M2K', 'M2N']]
-    variables = {'M2A': "Doctor", 'M2K': "Other", 'M2N': "No One"}
-
-    prenatal = prenatal.rename(columns=variables).apply(pd.Series.value_counts)
-
-    prenatal_reshaped = pd.melt(prenatal, var_name="Prenatal Care Type", value_name="Quantity", ignore_index=False)
-    prenatal_reshaped['Taken Care Of'] = prenatal_reshaped.index
-    prenatal_reshaped = prenatal_reshaped[(prenatal_reshaped['Taken Care Of'] != 'Missing')]
-
-    colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
-
-    plt.figure(figsize=(10, 7))
-    sns.catplot(x="Quantity", y="Prenatal Care Type", hue="Taken Care Of", data=prenatal_reshaped,
-                kind='bar', aspect=2, dodge=False, palette=colors, legend_out=False)
-    plt.title("Number of Respondents Receiving Prenatal Care per Region", font="Century Gothic", fontsize=18)
-    plt.tight_layout()
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    resp_pre_car_rgn = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return resp_pre_car_rgn
-
-
-def assistance_type_region(dataset, img):
-    # Assistance Type per Region
-    assistance = dataset[['M3A', 'M3H', 'M3K', 'M3N']]
-    variables = {'M3A': "Doctor", 'M3H': "Barangay Health Worker", 'M3K': "Other", 'M3N': "No One"}
-
-    assistance = assistance.rename(columns=variables).apply(pd.Series.value_counts)
-
-    assistance_reshaped = pd.melt(assistance, var_name="Assistance Type", value_name="Quantity", ignore_index=False)
-    assistance_reshaped['Assisted'] = assistance_reshaped.index
-    assistance_reshaped = assistance_reshaped[(assistance_reshaped['Assisted'] != 'Missing')]
-
-    colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
-
-    plt.figure(figsize=(15, 7))
-    sns.catplot(x="Quantity", y="Assistance Type", hue="Assisted", data=assistance_reshaped,
-                kind='bar', aspect=2, dodge=False, palette=colors, legend_out=False)
-    plt.title("Assistance Type per Region", font="Century Gothic", fontsize=20)
-    plt.tight_layout()
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    assist_typ_rgn = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return assist_typ_rgn
-
-
-def contraceptive_use_intention(dataset, img):
-    # Contraceptive Use and Intention
-    # explode = (0.1, 0.1, 0.1, 0.2)
-    colors = ['#DF9D9E', '#BF899C', '#C79272', '#987896']
-
-    no_class_contraceptive_use_intention_count = dataset['V364'].value_counts()
-    no_class_contraceptive_use_intention_list = list(no_class_contraceptive_use_intention_count.keys())
-    num_index = len(no_class_contraceptive_use_intention_count.index)
-    temp = []
-    for i in range(0, num_index):
-        value = 0.1
-        temp.append(value)
-
-    explode = tuple(temp)
-
-    contraceptive_use_intention_list = []
-
-    for key in no_class_contraceptive_use_intention_count.keys():
-        contraceptive_use_intention_list.append(no_class_contraceptive_use_intention_count[key])
-
-    plt.figure(figsize=(8, 8))
-    plt.pie(contraceptive_use_intention_list, labels=no_class_contraceptive_use_intention_list,
-            shadow=False, startangle=180, colors=colors, autopct='%1.1f%%', explode=explode)
-    plt.title('Contraceptive Use and Intention',
-              fontname="Century Gothic",
-              size=18)
-    plt.tight_layout()
-
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    cont_use_int = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return cont_use_int
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if flask.request.method == 'GET':
-        data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
-        img = BytesIO()
-        return render_template('index.html', inf_mort_rate=infant_mortality_rate(data, img),
-                               inf_mort_rate_yr=total_infant_mortality_year(data, img))
 
     if flask.request.method == 'POST':
-        if request.form['btn'] == 'predict':
-            V012 = (flask.request.form['V012'])
-            V119 = (flask.request.form['V119'])
-            V121 = (flask.request.form['V121'])
-            V122 = (flask.request.form['V122'])
-            V137 = (flask.request.form['V137'])
-            V149 = (flask.request.form['V149'])
-            V150 = (flask.request.form['V150'])
-            V201 = (flask.request.form['V201'])
-            V202 = (flask.request.form['V202'])
-            V203 = (flask.request.form['V203'])
-            V219 = (flask.request.form['V219'])
-            V337 = (flask.request.form['V337'])
-            V504 = (flask.request.form['V504'])
-            V513 = (flask.request.form['V513'])
-            V614 = (flask.request.form['V614'])
-            V729 = (flask.request.form['V729'])
-            BORD = (flask.request.form['BORD'])
-            B2 = (flask.request.form['B2'])
-            M3A = (flask.request.form['M3A'])
-            M19 = (flask.request.form['M19'])
-            V116_Flush_toilet_to_septic_tank = (flask.request.form['V116_Flush_toilet_to_septic_tank'])
-            V312_Not_using = (flask.request.form['V312_Not_using'])
-            V312_Pill = (flask.request.form['V312_Pill'])
-            V326_NA = (flask.request.form['V326_NA'])
-            V326_Pharmacy = (flask.request.form['V326_Pharmacy'])
-            V363_NA = (flask.request.form['V363_NA'])
-            V363_Pill = (flask.request.form['V363_Pill'])
-            V376_NA = (flask.request.form['V376_NA'])
-            V626_Not_married_and_no_sex_in_last_30_days = (
-                flask.request.form['V626_Not_married_and_no_sex_in_last_30_days'])
-            V626_Unmet_need_to_limit = (flask.request.form['V626_Unmet_need_to_limit'])
-            V626_Using_to_limit = (flask.request.form['V626_Using_to_limit'])
-            V626_Using_to_space = (flask.request.form['V626_Using_to_space'])
-            V705_NA = (flask.request.form['V705_NA'])
-            M15_Respondent_home = (flask.request.form['M15_Respondent_home'])
-            M19A_Not_weighed = (flask.request.form['M19A_Not_weighed'])
-            V616_NA = (flask.request.form['V616_NA'])
-            V616_Years = (flask.request.form['V616_Years'])
-            V602_Have_another = (flask.request.form['V602_Have_another'])
-            V602_No_more = (flask.request.form['V602_No_more'])
-            V501_Married = (flask.request.form['V501_Married'])
-            V501_Never_in_union = (flask.request.form['V501_Never_in_union'])
-            V364_Non_user_intend_to = (flask.request.form['V364_Non_user_intend_to'])
-            V364_Using_modern_method = (flask.request.form['V364_Using_modern_method'])
-            V362_NA = (flask.request.form['V362_NA'])
-            V362_Use_later = (flask.request.form['V362_Use_later'])
-            V361_Never_used = (flask.request.form['V361_Never_used'])
-            V361_Used_before_last_birth = (flask.request.form['V361_Used_before_last_birth'])
-            V327_NA = (flask.request.form['V327_NA'])
-            V327_Pharmacy = (flask.request.form['V327_Pharmacy'])
-            V313_Modern_method = (flask.request.form['V313_Modern_method'])
-            V313_No_method = (flask.request.form['V313_No_method'])
-            V604_NA = (flask.request.form['V604_NA'])
+        print("Predict")
+        if request.form['btn'] == 'Predict':
+            print("pasok")
+            v012 = (flask.request.form['v012'])
+            print("v012" + v012)
+            v729_label = (flask.request.form['v729_label'])
+            print("v729_label" + v729_label)
+            v149_label = (flask.request.form['v149_label'])
+            print("v149_label" + v149_label)
+            v150_label = (flask.request.form['v150_label'])
+            print("v150_label" + v150_label)
+            v504_label = (flask.request.form['v504_label'])
+            print("v504_label" + v504_label)
+            v501_one = (flask.request.form['v501_one'])
+            print("print" + v501_one)
+            v513_label = (flask.request.form['v513_label'])
+            print("print" + v513_label)
+            v203 = (flask.request.form['v203'])
+            print(v203)
+            v137 = (flask.request.form['v137'])
+            print(v137)
+            v202 = (flask.request.form['v202'])
+            print(v202)
+            v219 = (flask.request.form['v219'])
+            print(v219)
+            v201 = (flask.request.form['v201'])
+            print(v201)
+            v119_label = (flask.request.form['v119_label'])
+            print("v119_label" + v119_label)
+            v122_label = (flask.request.form['v122_label'])
+            print("v122_label" + v122_label)
+            v121_label = (flask.request.form['v121_label'])
+            print("v121_label" + v121_label)
+            v116_label = (flask.request.form['v116_label'])
+            print("v116_label" + v116_label)
+            bord = (flask.request.form['bord'])
+            print("bord" + bord)
+            m15_one = (flask.request.form['m15_one'])
+            print(m15_one)
+            b2 = (flask.request.form['b2'])
+            print(b2)
+            m19 = (flask.request.form['m19'])
+            print(m19)
+            m3a_label = (flask.request.form['m3a_label'])
+            print(m3a_label)
+            m19a = (flask.request.form['m19a'])
+            print(m19a)
+            v602_one = (flask.request.form['v602_one'])
+            print("v602_one" + v602_one)
+            v626_one = (flask.request.form['v626_one'])
+            print("v626_one" + v626_one)
+            v614 = (flask.request.form['v614'])
+            print(v614)
+            v312_one = (flask.request.form['v312_one'])
+            print(v312_one)
+            v364_one = (flask.request.form['v364_one'])
+            print(v364_one)
+            v337 = (flask.request.form['v337'])
+            print(v337)
+            v362_one = (flask.request.form['v362_one'])
+            print(v362_one)
+            v363_one = (flask.request.form['v363_one'])
+            print(v363_one)
+            v361_one = (flask.request.form['v361_one'])
+            print(v361_one)
+            v327_one = (flask.request.form['v327_one'])
+            print(v327_one)
+            v313_one = (flask.request.form['v313_one'])
+            print(v313_one)
 
-            headers = ['V012', 'V119', 'V121', 'V122', 'V137', 'V149', 'V150', 'V201', 'V202',
-                       'V203', 'V219', 'V337', 'V504', 'V513', 'V614', 'V729', 'BORD', 'B2',
-                       'M3A', 'M19', 'V116_Flush toilet to septic tank', 'V312_Not using',
-                       'V312_Pill', 'V326_NA', 'V326_Pharmacy', 'V363_NA', 'V363_Pill',
-                       'V376_NA', 'V626_Not married and no sex in last 30 days',
-                       'V626_Unmet need to limit', 'V626_Using to limit',
-                       'V626_Using to space', 'V705_NA', "M15_Respondent's home",
-                       'M19A_Not weighed', 'V616_NA', 'V616_Year/s', 'V602_Have another',
-                       'V602_No more', 'V501_Married', 'V501_Never in union',
-                       'V364_Non-user intend to', 'V364_Using modern method', 'V362_NA',
-                       'V362_Use later', 'V361_Never used', 'V361_Used before last birth',
-                       'V327_NA', 'V327_Pharmacy', 'V313_Modern method', 'V313_No method',
-                       'V604_NA']
+            # print(str(v012))
+            # print(v729_label)
+            # print(v149_label)
+            # print(v150_label)
+            # print(v504_label)
+            # print(v501_one)
+            # print(v513_label)
+            # print(v203)
+            # print(v137)
+            # print(v202)
+            # print(v219)
+            # print(v201)
+            # print(v119_label)
+            # print(v122_label)
+            # print(v121_label)
+            # print(v116_label)
+            # print(bord)
+            # print(m15_one)
+            # print(b2)
+            # print(m19)
+            # print(m3a_label)
+            # print(v602_one)
+            # print(v012)
+            # print(m19a)
+            # print(v626_one)
+            # print(v614)
+            # print(v312_one)
+            # print(v364_one)
+            # print(v362_one)
+            # print(v337)
+            # print(v363_one)
+            # print(v361_one)
+            # print(v327_one)
+            # print(v313_one)
 
-            input_var_df = pd.DataFrame(columns=headers)
+            v729_encoded = 0
+            if v729_label == "No education":
+                v729_encoded = 0
+            elif v729_label == "Incomplete primary":
+                v729_encoded = 1
+            elif v729_label == "Complete primary":
+                v729_encoded = 2
+            elif v729_label == "Incomplete secondary":
+                v729_encoded = 3
+            elif v729_label == "Complete secondary":
+                v729_encoded = 4
+            elif v729_label == "Higher":
+                v729_encoded = 5
+            elif v729_label == "Don't know":
+                v729_encoded = 7
+            else:
+                v729_encoded = 9
 
-            input_var_df.loc[len(input_var_df)] = [V012, V119, V121, V122, V137, V149, V150, V201, V202,
-                                                   V203, V219, V337, V504, V513, V614, V729, BORD, B2,
-                                                   M3A, M19, V116_Flush_toilet_to_septic_tank, V312_Not_using,
-                                                   V312_Pill, V326_NA, V326_Pharmacy, V363_NA, V363_Pill,
-                                                   V376_NA, V626_Not_married_and_no_sex_in_last_30_days,
-                                                   V626_Unmet_need_to_limit, V626_Using_to_limit,
-                                                   V626_Using_to_space, V705_NA, M15_Respondent_home,
-                                                   M19A_Not_weighed, V616_NA, V616_Years, V602_Have_another,
-                                                   V602_No_more, V501_Married, V501_Never_in_union,
-                                                   V364_Non_user_intend_to, V364_Using_modern_method, V362_NA,
-                                                   V362_Use_later, V361_Never_used, V361_Used_before_last_birth,
-                                                   V327_NA, V327_Pharmacy, V313_Modern_method, V313_No_method,
-                                                   V604_NA]
+            v149_encoded = 0
+            if v149_label == "No education":
+                v149_encoded = 0
+            elif v149_label == "Incomplete primary":
+                v149_encoded = 1
+            elif v149_label == "Complete primary":
+                v149_encoded = 2
+            elif v149_label == "Incomplete secondary":
+                v149_encoded = 3
+            elif v149_label == "Complete secondary":
+                v149_encoded = 4
+            else:
+                v149_encoded = 5
 
-            result = predict_infant_mortality(input_var_df)
+            v150_encoded = 0
+            if v150_label == "Not related":
+                v150_encoded = 0
+            elif v150_label == "Adopted/foster child":
+                v150_encoded = 1
+            elif v150_label == "Other relative":
+                v150_encoded = 2
+            elif v150_label == "Sister":
+                v150_encoded = 3
+            elif v150_label == "Mother-in-law":
+                v150_encoded = 4
+            elif v150_label == "Mother":
+                v150_encoded = 5
+            elif v150_label == "Grand-daughter":
+                v150_encoded = 6
+            elif v150_label == "Daughter-in-law":
+                v150_encoded = 7
+            elif v150_label == "Daughter":
+                v150_encoded = 8
+            elif v150_label == "Wife":
+                v150_encoded = 9
+            else:
+                v150_encoded = 10
+
+            v504_encoded = 0
+            if v504_label == "Staying elsewhere":
+                v504_encoded = 0
+            elif v504_label == "Living with her":
+                v504_encoded = 1
+            elif v504_label == "Missing":
+                v504_encoded = 8
+            else:
+                v504_encoded = 9
+
+            v501_never_in_union = 0
+            v501_maried = 0
+            if v501_one == "Question not applicable":
+                v501_never_in_union = 0
+                v501_maried = 0
+            elif v501_one == "Never in uninon":
+                v501_never_in_union = 1
+            else:
+                v501_maried = 1
+
+            v513_encoded = 0
+            if v513_label == "Never married":
+                v513_encoded = 0
+            elif v513_label == "0-4 years":
+                v513_encoded = 1
+            elif v513_label == "5-9 years":
+                v513_encoded = 2
+            elif v513_label == "10-14 years":
+                v513_encoded = 3
+            elif v513_label == "15-19 years":
+                v513_encoded = 4
+            elif v513_label == "20-24 years":
+                v513_encoded = 5
+            else:
+                v513_encoded = 6
+
+            v119_encoded = 0
+            if v119_label == "Yes":
+                v119_encoded = 2
+            elif v119_label == "No":
+                v119_encoded = 1
+            else:
+                v119_encoded = 8
+
+            v122_encoded = 0
+            if v122_label == "Yes":
+                v122_encoded = 2
+            elif v122_label == "No":
+                v122_encoded = 1
+            else:
+                v122_encoded = 8
+
+            v121_encoded = 0
+            if v121_label == "Yes":
+                v121_encoded = 2
+            elif v121_label == "No":
+                v121_encoded = 1
+            else:
+                v121_encoded = 8
+
+            v116_encoded = 0
+            if v116_label == "Yes":
+                v116_encoded = 1
+            else:
+                v116_encoded = 0
+
+            m15_encoded = 0
+            if m15_one == "No":
+                m15_encoded = 0
+            else:
+                m15_encoded = 0
+
+            m3a_encoded = 0
+            if m3a_label == "No":
+                m3a_encoded = 2
+            elif m3a_label == "Yes":
+                m3a_encoded = 3
+            elif m3a_label == "Missing":
+                m3a_encoded = 8
+            else:
+                m3a_encoded = 9
+
+            m19a_encoded = 0
+            if m19a == "Yes":
+                m19a_encoded = 1
+
+            v602_have_another = 0
+            v602_no_more = 0
+            if v602_one == "Have Another":
+                v602_have_another = 1
+                v602_no_more = 0
+            elif v602_one == "No More":
+                v602_have_another = 0
+                v602_no_more = 1
+
+            v626_not_married_no_sex = 0
+            v626_unmet_need_limit = 0
+            v626_using_to_limit = 0
+            v626_using_to_space = 0
+            if v626_one == "Question not applicable":
+                v626_not_married_no_sex = 0
+                v626_unmet_need_limit = 0
+                v626_using_to_limit = 0
+                v626_using_to_space = 0
+            elif v626_one == "Not married and no sex in last 30 days":
+                v626_not_married_no_sex = 1
+            elif v626_one == "Unmet need to limit":
+                v626_unmet_need_limit = 1
+            elif v626_one == "Using to limit":
+                v626_using_to_limit = 1
+            elif v626_one == "Using to space":
+                v626_using_to_space = 1
+
+            v312_pill = 0
+            v312_not_using = 0
+            if v312_one == "Yes":
+                v312_pill = 1
+            elif v312_one == "No":
+                v312_not_using = 1
+            else:
+                v312_pill = 0
+                v312_not_using = 0
+
+            v364_modern = 0
+            v364_non_user_intends = 0
+            if v364_one == "Yes":
+                v364_modern = 1
+            elif v364_one == "Non user but intends to use":
+                v364_non_user_intends = 1
+            else:
+                v364_modern = 0
+                v364_non_user_intends = 0
+
+            v362_use_later = 0
+            v362_na = 0
+            if v362_one == "Yes":
+                v362_use_later = 1
+            elif v362_one == "No":
+                v362_na = 1
+
+            v361_never_used = 0
+            v361_used_before_birth = 0
+            if v361_one == "Never Used":
+                v361_never_used = 1
+            elif v361_one == "Used before last birth":
+                v361_used_before_birth = 1
+            elif v361_one == "Not Applicable":
+                v361_never_used = 0
+                v361_used_before_birth = 0
+
+            v313_modern = 0
+            v313_no_method = 0
+            if v313_one == "Modern Method":
+                v313_modern = 1
+            elif v313_one == "No Method":
+                v313_no_method = 1
+            elif v313_one == "Not Applicable":
+                v313_modern = 0
+                v313_no_method = 0
+
+            v327_na = 0
+            v327_pharm = 0
+            if v327_one == "Yes":
+                v327_pharm = 1
+            elif v327_one == "No":
+                v327_na = 1
+            else:
+                v327_na = 0
+                v327_pharm = 0
+
+            # input_var_df = pd.DataFrame(columns=headers)
+
+            input_values = [v012, v119_encoded, v121_encoded, v122_encoded, v137, v149_encoded, v150_encoded,
+                            v201, v202, v203, v219, v337, v504_encoded, v513_encoded, v614, v729_encoded,
+                            bord, b2, m3a_encoded, m19, v116_encoded, v312_not_using, v312_pill,
+                            v626_not_married_no_sex,
+                            v626_unmet_need_limit, v626_using_to_limit, v626_using_to_space, m15_encoded,
+                            m19a_encoded, v602_have_another, v602_no_more, v501_maried, v501_never_in_union,
+                            v364_non_user_intends, v364_modern, v362_na, v362_use_later, v361_never_used,
+                            v361_used_before_birth, v327_na, v327_pharm, v313_modern, v313_no_method]
+
+            print(input_values)
+
+            result = package.predict_infant_mortality(input_values)
             return render_template('index.html', result=result)
 
-    if request.form['btn'] == 'plot':
-        region = request.form["region"]
-        return redirect(url_for("descriptive_statistics", rgn=region))
+        if request.form['btn'] == 'plot':
+            region = request.form["region"]
+            return redirect(url_for("descriptive_statistics", rgn=region))
 
-
-@app.route('/<rgn>')
-def descriptive_statistics(rgn):
-    region_value = rgn
     data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
     img = BytesIO()
+    return render_template('index.html', inf_mort_rate=package.infant_mortality_rate(data, img),
+                           inf_mort_rate_yr=package.total_infant_mortality_year(data, img))
+
+
+@app.route('/<rgn>', methods=['GET'])
+def descriptive_statistics(rgn):
+    region_value = rgn
+    img = BytesIO()
+    data = pd.read_csv('dataset/kr-final-cleaned.csv', low_memory=False)
     dataset_rgn = data.loc[data['V024'] == region_value]
-    print(data.head())
 
     return render_template("plot.html",
-                           high_educ_attain_bar_yes=highest_educational_attainment_yes(dataset_rgn, img),
-                           high_educ_attain_bar_no=highest_educational_attainment_no(dataset_rgn, img),
-                           inc=income(dataset_rgn, img),
-                           part_high_educ_attain=partner_highest_educational_attainment(dataset_rgn, img),
-                           per_alloc_bud_earn=person_allocating_budget_earnings(dataset_rgn, img),
-                           house_amen_rgn=household_amenities_region(dataset_rgn, img),
-                           resp_pre_car_rgn=respondents_prenatal_care_region(dataset_rgn, img),
-                           assist_typ_rgn=assistance_type_region(dataset_rgn, img),
-                           cont_use_int=contraceptive_use_intention(dataset_rgn, img)
+                           high_educ_attain_bar_yes=package.highest_educational_attainment_yes(dataset_rgn, img),
+                           high_educ_attain_no=package.highest_educational_attainment_no(dataset_rgn, img),
+                           region_value=rgn,
+                           inc=package.income(dataset_rgn, img),
+                           part_high_educ_attain=package.partner_highest_educational_attainment(dataset_rgn, img),
+                           per_alloc_bud_earn=package.person_allocating_budget_earnings(dataset_rgn, img),
+                           house_amen_rgn=package.household_amenities_region(dataset_rgn, img),
+                           resp_pre_car_rgn=package.respondents_prenatal_care_region(dataset_rgn, img),
+                           assist_typ_rgn=package.assistance_type_region(dataset_rgn, img),
+                           cont_use_int=package.contraceptive_use_intention(dataset_rgn, img)
                            )
 
 
