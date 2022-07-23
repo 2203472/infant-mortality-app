@@ -28,32 +28,37 @@ def predict_infant_mortality(input_values):
     with open(f'model/kr-final-pca.pkl', 'rb') as f:
         pca = pickle.load(f)
 
-    final_values = list()
+    with open(f'model/scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
 
-    # Standardization
-    means = [30.020727591613298, 1.7467779224575484, 1.57891100422524, 1.2668810289389068, 1.8438255693444234,
-             3.3114719247428983, 8.513459647630942, 3.467540060056868, 1.5715766256543806, 1.4499481810209667,
-             3.3615370306396324, 55.56881294677261, 1.3586139087454492, 2.40910419600861, 3.235603624671149,
-             3.156679333528208, 3.1351013791820574, 13.03178230714039, 2.366001434987112, 5.059594695863676,
-             0.4089713268316016, 0.4738380590470623, 0.18785044245435945, 0.025457734314793656, 0.13969865270654513,
-             0.34192554011320453, 0.1842364008397332, 0.46977226223060775, 0.25946692886184264, 0.31078100502245487,
-             0.5685206345831894, 0.740320480454944, 0.013977837421275013, 0.26015784858228586, 0.3610321277670006,
-             0.5264011054715527, 0.2117668943158566, 0.2154872312720895, 0.13504823151125403, 0.6423693231644123,
-             0.05628338338072334, 0.3610321277670006, 0.4738380590470623]
 
-    stdevs = [6.731180559267618, 0.43614425709578575, 0.49486933862999427, 0.4498416713335693, 0.8874649386318114,
-              1.4422374397381885, 1.4187624409665531, 2.331018239306285, 1.3171426240046313, 1.2605913493538428,
-              2.1407942370537736, 42.52028937116891, 1.8383916622527698, 1.3393098053782857, 1.2994933318703923,
-              1.745486709953654, 2.279529958566367, 7.389835777865726, 0.5557914404915119, 3.2411105714294184,
-              0.4916504897732531, 0.49932171822601823, 0.39059788530730033, 0.15751284831117976, 0.3466787171792647,
-              0.4743610910840786, 0.3876820132817717, 0.4990920789023669, 0.4383479757262574, 0.46281947247784305,
-              0.49528925033981336, 0.4384645658717301, 0.11740027148519873, 0.4387264037619226, 0.4803062157757754,
-              0.4993091294402239, 0.4085659220427584, 0.4111653887708846, 0.34177962322910616, 0.47930896175349064,
-              0.2304712035323833, 0.4803062157757754, 0.49932171822601823]
+    # final_values = list()
 
-    for i in range(len(input_values)):
-        input_values[i] = (input_values[i] - means[i]) / stdevs[i]
-    final_values.append(input_values)
+    # #Standardization
+    # means = [30.020727591613298, 1.7467779224575484, 1.57891100422524, 1.2668810289389068, 1.8438255693444234,
+    #          3.3114719247428983, 8.513459647630942, 3.467540060056868, 1.5715766256543806, 1.4499481810209667,
+    #          3.3615370306396324, 55.56881294677261, 1.3586139087454492, 2.40910419600861, 3.235603624671149,
+    #          3.156679333528208, 3.1351013791820574, 13.03178230714039, 2.366001434987112, 5.059594695863676,
+    #          0.4089713268316016, 0.4738380590470623, 0.18785044245435945, 0.025457734314793656, 0.13969865270654513,
+    #          0.34192554011320453, 0.1842364008397332, 0.46977226223060775, 0.25946692886184264, 0.31078100502245487,
+    #          0.5685206345831894, 0.740320480454944, 0.013977837421275013, 0.26015784858228586, 0.3610321277670006,
+    #          0.5264011054715527, 0.2117668943158566, 0.2154872312720895, 0.13504823151125403, 0.6423693231644123,
+    #          0.05628338338072334, 0.3610321277670006, 0.4738380590470623]
+
+    # stdevs = [6.731180559267618, 0.43614425709578575, 0.49486933862999427, 0.4498416713335693, 0.8874649386318114,
+    #           1.4422374397381885, 1.4187624409665531, 2.331018239306285, 1.3171426240046313, 1.2605913493538428,
+    #           2.1407942370537736, 42.52028937116891, 1.8383916622527698, 1.3393098053782857, 1.2994933318703923,
+    #           1.745486709953654, 2.279529958566367, 7.389835777865726, 0.5557914404915119, 3.2411105714294184,
+    #           0.4916504897732531, 0.49932171822601823, 0.39059788530730033, 0.15751284831117976, 0.3466787171792647,
+    #           0.4743610910840786, 0.3876820132817717, 0.4990920789023669, 0.4383479757262574, 0.46281947247784305,
+    #           0.49528925033981336, 0.4384645658717301, 0.11740027148519873, 0.4387264037619226, 0.4803062157757754,
+    #           0.4993091294402239, 0.4085659220427584, 0.4111653887708846, 0.34177962322910616, 0.47930896175349064,
+    #           0.2304712035323833, 0.4803062157757754, 0.49932171822601823]
+
+    # for i in range(len(input_values)):
+    #     input_values[i] = (input_values[i] - means[i]) / stdevs[i]
+    # final_values.append(input_values)
+    final_values = scaler.transform(input_values)
     standardized_values = pd.DataFrame(final_values)
 
     reduced_values = pca.transform(standardized_values)
@@ -67,16 +72,16 @@ def predict_infant_mortality(input_values):
     # input_variables = scaled_df.tail(1)
 
     # PCA
-    prediction = model.predict(input_variables)[0]
-    # prediction = model.predict(input_variables, predict_disable_shape_check=True)[0]
+    prediction = model.predict_proba(input_variables)[0]
+    #prediction = model.predict(input_variables, predict_disable_shape_check=True)[0]
 
-    if prediction == 0:
-        printpredict = "Positive Infant Mortality"
-    else:
-        printpredict = "Negative Infant Mortality"
+    # if prediction == 0:
+    #     result = "Positive Infant Mortality"
+    # else:
+    #     result = "Negative Infant Mortality"
 
-    result = 'Infant mortality percentage: {:.2%} '.format(prediction) + printpredict
-    print(prediction)
+    result = '{:.2%} chance of infant mortality '.format(prediction[0])
+    # print(prediction)
 
     return result
 
@@ -92,7 +97,7 @@ def highest_educational_attainment_yes(dataset_rgn, img):
     ax1 = sns.barplot(x=no_class_education_count.index, y=no_class_education_count.values, palette="pastel",
                       edgecolor=".6", hue=no_class_education_count.index, dodge=False)
     plt.ylabel('Total Count')
-    plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
+    # plt.title('Highest Education Attainment for Families having Positive Infant Mortality', fontsize=20)
 
     for container in ax1.containers:
         ax1.bar_label(container, padding=3)
@@ -115,7 +120,7 @@ def partner_highest_educational_attainment(dataset_rgn, img):
                       palette="pastel",
                       edgecolor=".6", hue=no_class_partner_education_count.index, dodge=False)
     plt.ylabel('Total Count')
-    plt.title("Husband/Partner's Highest Education Attainment Having Positive Infant Mortality", fontsize=20)
+    # plt.title("Husband/Partner's Highest Education Attainment Having Positive Infant Mortality", fontsize=20)
 
     for container in ax1.containers:
         ax1.bar_label(container, padding=3)
@@ -138,7 +143,7 @@ def top_10_occupation_respondents(dataset_rgn, img):
     ax1 = sns.barplot(x=no_class_occupation_count.index, y=no_class_occupation_count.values, palette="pastel",
                       edgecolor=".6", hue=no_class_occupation_count.index, dodge=False)
     plt.ylabel('Total Count')
-    plt.title("Top 10 Occupations of Respondent's Having Positive Infant Mortality", fontsize=20)
+    # plt.title("Top 10 Occupations of Respondent's Having Positive Infant Mortality", fontsize=20)
 
     for container in ax1.containers:
         ax1.bar_label(container, padding=3)
@@ -164,7 +169,7 @@ def top_10_occupation_partners(dataset_rgn,img):
                       palette="pastel",
                       edgecolor=".6", hue=no_class_partner_occupation_count.index, dodge=False)
     plt.ylabel('Total Count')
-    plt.title("Husband/Partner's Top 10 Occupations Having Positive Infant Mortality", fontsize=20)
+    # plt.title("Husband/Partner's Top 10 Occupations Having Positive Infant Mortality", fontsize=20)
 
     for container in ax1.containers:
         ax1.bar_label(container, padding=3)
@@ -207,9 +212,9 @@ def person_allocating_budget_earnings(dataset_rgn, img):
             shadow=False, startangle=180, colors=colors, explode=explode,
             autopct='%1.1f%%')
 
-    plt.title('Person in-charge of Allocating Budget of Earnings',
-              fontname="Century Gothic",
-              size=18)
+    # plt.title('Person in-charge of Allocating Budget of Earnings',
+    #           fontname="Century Gothic",
+    #           size=18)
     plt.tight_layout()
 
     plt.savefig(img, format='png')
@@ -237,7 +242,7 @@ def infant_mortality_rate(dataset, img):
     plt.plot(years, values)
     plt.xlabel('Year')
     plt.ylabel('Total Positive Infant Mortality')
-    plt.title("Total Infant Mortality for Each Year", fontsize=20)
+    # plt.title("Total Infant Mortality for Each Year", fontsize=20)
 
     plt.savefig(img, format='png')
     plt.close()
@@ -257,7 +262,7 @@ def total_infant_mortality_year(no_b5_class, img):
                       edgecolor=".6", hue=no_class_year_count.index, dodge=False)
     plt.xlabel('Year')
     plt.ylabel('Total Positive Infant Mortality')
-    plt.title("Total Infant Mortality for Each Year", fontsize=20)
+    # plt.title("Total Infant Mortality for Each Year", fontsize=20)
 
     for container in ax1.containers:
         ax1.bar_label(container, padding=3)
@@ -287,7 +292,7 @@ def household_amenities_region(dataset, img):
 
     plot = sns.catplot(x="Quantity", y="Amenities", hue="Ownership", data=amenities_reshaped,
                        kind='bar', aspect=2.5, dodge=False, palette=colors)
-    plot.fig.suptitle("Household Amenities per Region", font="Century Gothic", fontsize=20)
+    # plot.fig.suptitle("Household Amenities per Region", font="Century Gothic", fontsize=20)
     plt.tight_layout()
 
     plt.savefig(img, format='png')
@@ -314,7 +319,7 @@ def respondents_prenatal_care_region(dataset, img):
     plt.figure(figsize=(10, 7))
     sns.catplot(x="Quantity", y="Prenatal Care Type", hue="Taken Care Of", data=prenatal_reshaped,
                 kind='bar', aspect=2, dodge=False, palette=colors, legend_out=False)
-    plt.title("Number of Respondents Receiving Prenatal Care per Region", font="Century Gothic", fontsize=18)
+    # plt.title("Number of Respondents Receiving Prenatal Care per Region", font="Century Gothic", fontsize=18)
     plt.tight_layout()
 
     plt.savefig(img, format='png')
@@ -341,7 +346,7 @@ def assistance_type_region(dataset, img):
     plt.figure(figsize=(15, 7))
     sns.catplot(x="Quantity", y="Assistance Type", hue="Assisted", data=assistance_reshaped,
                 kind='bar', aspect=2, dodge=False, palette=colors, legend_out=False)
-    plt.title("Assistance Type per Region", font="Century Gothic", fontsize=20)
+    # plt.title("Assistance Type per Region", font="Century Gothic", fontsize=20)
     plt.tight_layout()
 
     plt.savefig(img, format='png')
@@ -375,9 +380,9 @@ def contraceptive_use_intention(dataset, img):
     plt.figure(figsize=(8, 8))
     plt.pie(contraceptive_use_intention_list, labels=no_class_contraceptive_use_intention_list,
             shadow=False, startangle=180, colors=colors, autopct='%1.1f%%', explode=explode)
-    plt.title('Contraceptive Use and Intention',
-              fontname="Century Gothic",
-              size=18)
+    # plt.title('Contraceptive Use and Intention',
+    #           fontname="Century Gothic",
+    #           size=18)
     plt.tight_layout()
 
     plt.savefig(img, format='png')

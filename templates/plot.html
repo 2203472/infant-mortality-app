@@ -7,71 +7,70 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 <nav class="navbar">
-    <div class="nav-con">
-      <div class="logo">
-        <h1><a href="index.html">PENATICS</a></h1>
-      </div>
-  
-      <ul class="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
-    </div>
+    <h1>EyeForsee: Infant Mortality</h1>
+    <p>A predictive and descriptive poverty app for the Philippines</p>
 </nav>
 <body>
-    <h2>Descriptive Statistics for {{ region_value }}</h2>
+    <br>
+    <br>
+    <h2 class ="titles-plot">Descriptive Statistics for {{ region_value }}</h2>
     <div class="container1">
         <br>
-        <h2>Highest Education Attainment Yes</h2>
+        <h2 class ="titles-plot">Highest education attainment for families having positive infant mortality</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ high_educ_attain_bar_yes }}">
         </div>
-
         <br>
-        <h2>Bar Plot Top 10 Occupation of Respondent's</h2>
+        <br>
+        <h2 class ="titles-plot">Top 10 occupation of respondent's having positive infant mortality</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ top_10_occu_respo }}">
         </div>
-
-        <h2>Bar Plot Top 10 Occupation of Partner's/Husband</h2>
+        <br>
+        <br>
+        <h2 class ="titles-plot">Husband/partner's top 10 occumaptions having positive infant mortality</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ top_10_occu_part }}">
         </div>
-
-        <h2>Husband/Partner's Highest Educational Attainment</h2>
+        <br>
+        <br>
+        <h2 class ="titles-plot">Husband/partner's highest education attainment having positive infant mortality</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ part_high_educ_attain }}">
         </div>
-
         <br>
-        <h2>Person in-charge of allocating budget of respondent's earnings</h2>
+        <br>
+        <h2 class ="titles-plot">Person in-charge of allocating budget of respondent's earnings</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ per_alloc_bud_earn }}">
         </div>
-
         <br>
-        <h2>Number of Respondents Receiving Prenatal Care per Region</h2>
+        <br>
+        <h2 class ="titles-plot">Number of respondents receiving prenatal care</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ resp_pre_car_rgn }}">
         </div>
-
         <br>
-        <h2>Household Amenities per Region</h2>
+        <br>
+        <h2 class ="titles-plot">Household amenities</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ house_amen_rgn }}">
         </div>
-
         <br>
-        <h2>Assistance Type per Region</h2>
+        <br>
+        <h2 class ="titles-plot">Assistance type</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ assist_typ_rgn }}">
         </div>
-
         <br>
-        <h2>Contraceptive Use and Intention</h2>
+        <br>
+        <h2 class ="titles-plot">Contraceptive use and intention</h2>
         <div class="set">
             <img src="data:image/png;base64, {{ cont_use_int }}">
         </div>
+        <br>
+        <br>
+        <br>
     </div>
 </body>
 </html>

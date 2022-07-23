@@ -5,9 +5,9 @@
     --bg-color: #fffefc;
     --h1-color: #000;
     --subheader-color: rgb(49, 49, 49);
-    --title-color: #393939;
+    --title-color: #ffffff;
     --text-color: #2d2d2d;
-    --secondary-text-color: #5f6c7b;
+    --secondary-text-color: #3d3f41;
     --button-color: #3da9fc;
     --button-color-alt: #5a9dcd;
     --button-color-alt1: #407eaa;
@@ -29,95 +29,238 @@
   /*========== CSS ==========*/
 * {
     padding:0;
-    margin: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-}
+    margin: 0;}
 
 a {
     text-decoration: none;
   }
 
   .navbar {
-    background-color: #91c3e7;
-    height: 65px;
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-bottom: 1%;
+    background-color: #86bee9;
+    height: 100px;
     box-shadow: 0 10px 50px hsl(0, 0%, 90%);
+  }
 
-  }
-  
-  .nav-con {
-    background-color: #91c3e7;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  
-  .logo a {
-    float: left;
-    padding: 20px;
-    color:var(--h1-color);
-  }
-  
-  .menu {
-    float: right;
-  }
-  
-  .menu li {
-    list-style: none;
-    display: inline-block;
-  }
-  
-  .menu li a {
-    padding: 20px 30px;
-    color: var(--bg-color);
-    float: left;
-    transition: color .3s ease-in-out;
-  }
-  
-  .menu li a:hover {
-    color: var(--secondary-text-color);
-    transition: color .5s ease-in-out;
-  }
 
 body {
     font-family: var(--body-font); 
     background-color: var(--primary-color);;
-    /*background-color: #91c3e7;*/
-    
-}
+    *background-color: #91c3e7;
+} 
 
-div{
-    display: block;
-}
 
 p{
     font-size: var(--normal-font-size);
     color: var(--text-color);
 }
 
-label, input {
+label, input, select, option, .region-select {
     font-size: var(--normal-font-size);
     color: var(--secondary-text-color);
 }
 
+body{
+  background-color: #f3f3f3;
+}
 
 form {
-    display: block;
-    width: 80%;
-}
+  outline: none;
+    /* display: block;
+    width: 80%; */
+} 
 
 .container{
-    margin:3%;
-    background: var(--bg-color);
-    padding: 2%;
-    border-radius: 12px;
-    box-shadow: 2px 3px 10px rgba(75, 75, 75, 0.458);
+  outline: none;
+  width: 70%;
+  margin-top:0.5%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:0.5%;
+  background: var(--bg-color);
+  padding: 2%;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-.container1{
-  margin-bottom: 5%;
+.container2{
+  padding: 15%;
+}
+fieldset{
+  border-style: dotted;
+  margin-bottom: 2;
 }
 
-div.set{
+.titles{
+  text-align: center;
+  margin: 3%;
+}
+
+.titles-plot{
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.col {
+  float: left;
+  width: 50%;
+  padding: 10px;/* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row{
+  margin-left:8%;
+  margin-right:8%;
+}
+
+.col>input{
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.col>select {
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.region-select{
+  height: 2vw;
+  width: 30%;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+  border:0px;
+  outline:0px;
+  margin-right: 2%;
+  border-radius: 3px;
+  box-shadow: #5E5DF0 0 10px 20px -10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.plotButton, .backButton{
+  background: #3da9fc;
+  border-radius: 3px;
+  box-shadow: #5a9dcd 0 10px 20px -10px;
+  width: 10%;
+  height: 2vw;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 24px;
+  outline: 0 solid transparent;
+  box-shadow: #407eaa 0 10px 20px -10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border: 0;   
+}
+
+.submitBtn{
+  font-size: larger;
+  margin-right: 30px;
+  background: #3da9fc;
+  border-radius: 3px;
+  box-shadow: #5a9dcd 0 10px 20px -10px;
+  width: 20%;
+  height: 3vw;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 24px;
+  outline: 0 solid transparent;
+  box-shadow: #407eaa 0 10px 20px -10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border: 0;  
+}
+
+.col1 {
+  float: left;
+  width: 50%;
+
+}
+
+#resLabel{
+  font-size: xx-large;
+}
+.result{
+  text-align: right;
+  
+}
+
+/* Clear floats after the columns */
+.resultRow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.desc-stat{
+  margin-top: 5%;
+}
+
+.resultRow{
+  margin-top: 2%;
+  margin-bottom: 3%;
+}
+
+
+.plotButton:hover, .backButton:hover  {
+  background: #6ec0ff;
+  border-radius: 3px;
+  box-shadow: #5a9dcd 0 10px 20px -10px;
+  width: 10%;
+  height: 2vw;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 24px;
+  outline: 0 solid transparent;
+  box-shadow: #407eaa 0 10px 20px -10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border: 0;  
+
+}
+
+.submitBtn{
+  text-align: center;
+}
+
+
+img {
+  max-width: 70%;
+  max-height: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 3px;
+}
+/* div.set{
   background: var(--bg-color);
   width: 90%;
   border-radius: 25px;
@@ -127,18 +270,14 @@ div.set{
   box-shadow: 0 3px 10px rgb(0 0 0 / 15%);
   margin-left: 5%;
 
-}
+} */
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-}
+/* 
 
 
-fieldset{
-    color: var(--title-color);
-    border-style: ridge;
-}
+
+
+
 
 legend{
     font-size: var(--small-font-size);
@@ -154,10 +293,10 @@ legend{
   width: 50%;
   padding-left: 7%;
   padding-bottom: 1%;
-}
+} */
 
 /* Clear floats after the columns */
-.row:after {
+/* .row:after {
   content: "";
   display: table;
   clear: both;
@@ -249,4 +388,4 @@ input.plotButton{
   color: var(--bg-color);
   opacity: 1;
   outline: 0 solid transparent;
-}
+} */

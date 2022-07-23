@@ -9,7 +9,7 @@ from scipy.stats import stats
 from sklearn import preprocessing
 import seaborn as sns
 import xgboost
-
+import numpy as np
 from flask import request, url_for, redirect, render_template
 import matplotlib
 
@@ -334,14 +334,14 @@ def index():
 
             # input_var_df = pd.DataFrame(columns=headers)
 
-            input_values = [v012, v119_encoded, v121_encoded, v122_encoded, v137, v149_encoded, v150_encoded,
+            input_values = np.array([[v012, v119_encoded, v121_encoded, v122_encoded, v137, v149_encoded, v150_encoded,
                             v201, v202, v203, v219, v337, v504_encoded, v513_encoded, v614, v729_encoded,
                             bord, b2, m3a_encoded, m19, v116_encoded, v312_not_using, v312_pill,
                             v626_not_married_no_sex,
                             v626_unmet_need_limit, v626_using_to_limit, v626_using_to_space, m15_encoded,
                             m19a_encoded, v602_have_another, v602_no_more, v501_maried, v501_never_in_union,
                             v364_non_user_intends, v364_modern, v362_na, v362_use_later, v361_never_used,
-                            v361_used_before_birth, v327_na, v327_pharm, v313_modern, v313_no_method]
+                            v361_used_before_birth, v327_na, v327_pharm, v313_modern, v313_no_method]])
 
             print(input_values)
 
