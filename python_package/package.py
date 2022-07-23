@@ -25,7 +25,7 @@ def predict_infant_mortality(input_values):
         model = pickle.load(f)
 
     # Use pickle to load the PCA model.
-    with open(f'dataset/kr-final-pca.pkl', 'rb') as f:
+    with open(f'model/kr-final-pca.pkl', 'rb') as f:
         pca = pickle.load(f)
 
     final_values = list()
@@ -69,12 +69,16 @@ def predict_infant_mortality(input_values):
     # PCA
     prediction = model.predict(input_variables)[0]
     # prediction = model.predict(input_variables, predict_disable_shape_check=True)[0]
+
     if prediction == 0:
         printpredict = "Positive Infant Mortality"
     else:
         printpredict = "Negative Infant Mortality"
 
-    return printpredict
+    result = 'Infant mortality percentage: {:.2%} '.format(prediction) + printpredict
+    print(prediction)
+
+    return result
 
 # Highest Education Attainment for each Mortality class
 

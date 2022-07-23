@@ -22,6 +22,9 @@ app = flask.Flask(__name__,
                   static_folder='static',
                   template_folder='templates')
 
+app.config['ENV'] = 'development'
+app.config['DEBUG'] = True
+app.config['TESTING'] = True
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -380,4 +383,6 @@ def descriptive_statistics(rgn):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    app.use_reloader = False
+    app.debug = True
+    app.run()
